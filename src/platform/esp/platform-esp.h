@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #ifndef TINYBUS_PLATFORM_ESP_H_
-#define TINYBUS_PLATFORM_ZEPHYR_H_
+#define TINYBUS_PLATFORM_ESP_H_
 
 #include "tinybus-esp-config.h"
 #include <stdint.h>
@@ -15,4 +15,4 @@
  */
 tbError platformSchedulerInit(void);
 
-#endif // TINYBUS_PLATFORM_ZEPHYR_H_
+#endif // TINYBUS_PLATFORM_ESP_H_
