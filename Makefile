@@ -20,7 +20,7 @@ include make/espidf-54.mk
 endif
 ifneq (,$(findstring zephyr,$(MAKECMDGOALS)))
 APP_DIR := examples/zephyr/${APP_NAME}
-include make/zephyr-400.mk
+include make/zephyr-410.mk
 endif
 ifneq (,$(findstring posix,$(MAKECMDGOALS)))
 APP_DIR := examples/posix/${APP_NAME}

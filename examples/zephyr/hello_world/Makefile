@@ -8,7 +8,7 @@ TARGET ?= native_sim/native/64
 include ../../../make/makefile.mk
 
 # import settings for the used Zeyphyr Platform
-include ../../../make/zephyr-400.mk
+include ../../../make/zephyr-410.mk
 
 ifndef ZEPHYR_BASE
 $(error The ZEPHYR_BASE environment variable must be set)
