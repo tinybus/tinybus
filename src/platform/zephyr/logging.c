@@ -38,7 +38,6 @@ static inline int log_translate(tbLogLevel aLogLevel)
 void tbPlatLog(tbLogLevel aLogLevel, const char *aFormat, ...)
 {
 #if defined(CONFIG_TINYBUS_LOG)
-    char    buffer[1024];
     int     level = log_translate(aLogLevel);
     va_list param_list;
 
@@ -48,9 +47,7 @@ void tbPlatLog(tbLogLevel aLogLevel, const char *aFormat, ...)
     }
 
     va_start(param_list, aFormat);
-    vsnprintf(buffer, sizeof(buffer), aFormat, param_list);
-    LOG_INF("%s", buffer);
-    /* log_generic(level, aFormat, param_list); */
+    log_generic(level, aFormat, param_list);
     va_end(param_list);
 #else
     ARG_UNUSED(aLogLevel);
