@@ -1,4 +1,11 @@
+config TINYBUS
+    bool "TinyBus Library"
+    help
+        This option enables the TinyBus Library
+
+if TINYBUS
 menu "TinyBus configuration"
+
     config TINYBUS_MAX_SUBSCRIBERS
         int "Maximum nuber of subscriber to the Tiny Bus"
         default 64
@@ -65,3 +72,4 @@ menu "TinyBus configuration"
         help
             Selects whether tinybus performs runtime assert checks.
 endmenu
+endif # TINYBUS
