@@ -49,7 +49,7 @@ void tbPlatLog(tbLogLevel aLogLevel, const char *aFormat, ...)
     }
 
     va_start(param_list, aFormat);
-    esp_log_write(level, TAG, aFormat, param_list);
+    esp_log_writev(level, TAG, aFormat, param_list);
     va_end(param_list);
 
 #else
