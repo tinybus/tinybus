@@ -9,4 +9,7 @@
 
 #include "platform-esp.h"
 
-void tbPlatformInit(void) { platformSchedulerInit(); }
+void tbPlatformInit(void)
+{
+    tbPlatformSchedulerInit();
+}

@@ -13,6 +13,6 @@
  * This function initializes the scheduler service.
  *
  */
-tbError platformSchedulerInit(void);
+tbError tbPlatformSchedulerInit(void);
 
 #endif // PLATFORM_POSIX_H_

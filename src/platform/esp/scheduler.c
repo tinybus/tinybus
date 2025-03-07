@@ -10,12 +10,12 @@
 #include "tinybus/platform/scheduler.h"
 #include "tinybus/tinybus.h"
 
-static QueueHandle_t     mBacklogQueue = NULL;
-static SchedulerNotifyFn mNotifyFn     = NULL;
+static QueueHandle_t       mBacklogQueue = NULL;
+static TbSchedulerNotifyFn mNotifyFn     = NULL;
 
 static void schedulerTask(void *aParameters)
 {
-    static Event event;
+    static TbEvent event;
     for (;;)
     {
         while (xQueueReceive(mBacklogQueue, &event, portMAX_DELAY) != pdPASS)
@@ -28,7 +28,7 @@ static void schedulerTask(void *aParameters)
     }
 }
 
-void tbSchedulerEventPush(const Event *aEvent)
+void tbSchedulerEventPush(const TbEvent *aEvent)
 {
     if (mBacklogQueue == NULL)
     {
@@ -38,11 +38,14 @@ void tbSchedulerEventPush(const Event *aEvent)
     xQueueSendToBack(mBacklogQueue, aEvent, (TickType_t)10);
 }
 
-void tbOnSchedulerEvent(SchedulerNotifyFn aNotifyFn) { mNotifyFn = aNotifyFn; }
-
-tbError platformSchedulerInit()
+void tbOnSchedulerEvent(TbSchedulerNotifyFn aNotifyFn)
 {
-    mBacklogQueue = xQueueCreate(CONFIG_TINYBUS_MAX_BACKLOG, sizeof(Event));
+    mNotifyFn = aNotifyFn;
+}
+
+tbError tbPlatformSchedulerInit()
+{
+    mBacklogQueue = xQueueCreate(CONFIG_TINYBUS_MAX_BACKLOG, sizeof(TbEvent));
     xTaskCreate(schedulerTask, "tb_main", 1024, NULL, 0, NULL);
 
     return TB_ERROR_NONE;

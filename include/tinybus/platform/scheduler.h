@@ -18,7 +18,7 @@
 extern "C" {
 #endif
 
-typedef void (*SchedulerNotifyFn)(const Event *aEvent);
+typedef void (*TbSchedulerNotifyFn)(const TbEvent *aEvent);
 
 /**
  * @addtogroup plat-scheduler
@@ -36,9 +36,9 @@ typedef void (*SchedulerNotifyFn)(const Event *aEvent);
  * @param[in]  aFormat     A pointer to the format string.
  * @param[in]  ...         Arguments for the format specification.
  */
-void tbSchedulerEventPush(const Event *aEvent);
+void tbSchedulerEventPush(const TbEvent *aEvent);
 
-void tbOnSchedulerEvent(SchedulerNotifyFn aNotifyFn);
+void tbOnSchedulerEvent(TbSchedulerNotifyFn aNotifyFn);
 
 /**
  * @}

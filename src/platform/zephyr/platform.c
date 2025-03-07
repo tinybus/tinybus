@@ -9,4 +9,7 @@
 
 #include "platform-zephyr.h"
 
-void tbPlatformInit(void) { platformSchedulerInit(); }
+void tbPlatformInit(void)
+{
+    tbPlatformSchedulerInit();
+}

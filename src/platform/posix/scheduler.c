@@ -10,13 +10,13 @@
 #include "tinybus/platform/scheduler.h"
 #include "tinybus/tinybus.h"
 
-static pthread_t          mThread;
-static SchedulerNotifyFn  mNotifyFn = NULL;
-static struct threadqueue mBacklogQueue;
+static pthread_t           mThread;
+static TbSchedulerNotifyFn mNotifyFn = NULL;
+static struct threadqueue  mBacklogQueue;
 
 static void *schedulerTask(void *p1)
 {
-    static Event event;
+    static TbEvent event;
     for (;;)
     {
         thread_queue_get(&mBacklogQueue, NULL, (void *)&event);
@@ -27,18 +27,18 @@ static void *schedulerTask(void *p1)
     }
 }
 
-void tbSchedulerEventPush(const Event *aEvent)
+void tbSchedulerEventPush(const TbEvent *aEvent)
 {
     tbPlatLog(TB_LOG_LEVEL_INFO, "Scheduler event received %s", aEvent->event);
     thread_queue_add(&mBacklogQueue, (void *)aEvent, 0);
 }
 
-void tbOnSchedulerEvent(SchedulerNotifyFn aNotifyFn)
+void tbOnSchedulerEvent(TbSchedulerNotifyFn aNotifyFn)
 {
     mNotifyFn = aNotifyFn;
 }
 
-tbError platformSchedulerInit()
+tbError tbPlatformSchedulerInit()
 {
     thread_queue_init(&mBacklogQueue);
     pthread_create(&mThread, NULL, schedulerTask, NULL);

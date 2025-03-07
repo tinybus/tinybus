@@ -15,14 +15,14 @@
 #include "tinybus/platform/scheduler.h"
 #include "tinybus/tinybus.h"
 
-static bool handleEvent(const Subscriber *aSubscriber, const Event *aEvent)
+static bool handleEvent(const TbSubscriber *aSubscriber, const TbEvent *aEvent)
 {
     uint8_t i;
     bool    eventHandled = false;
 
     for (i = 0; i < aSubscriber->tableRowCount; i++)
     {
-        const StateTableRow *row = &aSubscriber->table[i];
+        const TbStateTableRow *row = &aSubscriber->table[i];
 
         if ((aEvent->event == row->event) && ((aSubscriber->currentState == row->state) || (row->state == NULL)) &&
             ((row->conditionCheck == NULL || (row->conditionCheck)())))
@@ -48,7 +48,7 @@ static bool handleEvent(const Subscriber *aSubscriber, const Event *aEvent)
             // set exit action for next state (only, if the next state is new)
             if (row->nextState != NULL)
             {
-                *(StateActionFn *)aSubscriber->exitAction = row->exitAction;
+                *(TbStateActionFn *)aSubscriber->exitAction = row->exitAction;
             }
             eventHandled = true;
             // break if needed
@@ -62,11 +62,11 @@ static bool handleEvent(const Subscriber *aSubscriber, const Event *aEvent)
     return eventHandled;
 }
 
-static size_t      mSubscriberCount;
-static Subscriber *mSubscriber[CONFIG_TINYBUS_MAX_SUBSCRIBERS];
-static bool        mInitialized;
+static size_t        mSubscriberCount;
+static TbSubscriber *mSubscriber[CONFIG_TINYBUS_MAX_SUBSCRIBERS];
+static bool          mInitialized;
 
-static void onSchedulerNotify(const Event *aEvent)
+static void onSchedulerNotify(const TbEvent *aEvent)
 {
     bool eventHandled = false;
     for (size_t i = 0; i < mSubscriberCount; i++)
@@ -96,7 +96,7 @@ static void init()
     mInitialized = true;
 }
 
-tbError tbPublish(const Event *aEvent)
+tbError tbPublish(const TbEvent *aEvent)
 {
     // we need to copy the data within the event to the heap
     // it will be freed, after the event is processed
@@ -110,7 +110,7 @@ tbError tbPublish(const Event *aEvent)
     return TB_ERROR_NONE;
 }
 
-tbError tbSubscribe(Subscriber *aSubscriber)
+tbError tbSubscribe(TbSubscriber *aSubscriber)
 {
     // let the first subscription initialize the bus
     if (!mInitialized)

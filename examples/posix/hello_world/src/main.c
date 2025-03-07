@@ -22,10 +22,10 @@ TB_EVENT_NAME(MAIN, HELLO_WORLD, "HelloWorld");
 TB_STATE_NAME(MAIN, START, "Start");
 
 // 2. Declare the actions using in the state table
-static void onHelloWorld(const Event *aEvent);
+static void onHelloWorld(const TbEvent *aEvent);
 
 // 3. Glue everything together
-static const StateTableRow stateTable[] = {{
+static const TbStateTableRow stateTable[] = {{
     .state = MAIN_STATE_START,                // only process the event, if the current state
                                               // match. TB_STATE_INITIAL is the default state.
                                               // use TB_STATE_ANY, if this should be ignored
@@ -39,7 +39,7 @@ static const StateTableRow stateTable[] = {{
 
 /*****************************************************************************/
 // Implement the Actions
-static void onHelloWorld(const Event *aEvent)
+static void onHelloWorld(const TbEvent *aEvent)
 {
     printf("Action onHelloWorld() called from TinyBus");
 }

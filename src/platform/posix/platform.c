@@ -11,5 +11,5 @@
 
 void tbPlatformInit(void)
 {
-    platformSchedulerInit();
+    tbPlatformSchedulerInit();
 }

@@ -22,47 +22,47 @@ extern "C" {
 // Macro for genereting a const char* from a string literal
 #define TB_EVENT_NAME(tag, name, value) const char *const tag##_EVENT_##name = value;
 #define TB_STATE_NAME(tag, name, value) const char *const tag##_STATE_##name = value;
-#define TB_EVENT(event, data, len) (&(Event){event, data, len})
+#define TB_EVENT(event, data, len) (&(TbEvent){event, data, len})
 #define TB_SUBSCRIBER(module, table, tableRowCount, startState) \
-    (&(Subscriber){module, table, tableRowCount, startState, NULL})
+    (&(TbSubscriber){module, table, tableRowCount, startState, NULL})
 
 // ARRAY_SIZE ... (be careful, this is base on sizeof, only use on arrays)
 #define TB_TABLE_ROW_COUNT(x) (sizeof(x) / sizeof((x)[0]))
 
-typedef struct Event
+typedef struct TbEvent
 {
     const char *event;
     void       *data;
     size_t      dataLen;
-} Event;
+} TbEvent;
 
-typedef void (*StateActionFn)(const Event *aEvent);
+typedef void (*TbStateActionFn)(const TbEvent *aEvent);
 
-typedef bool (*StateConditionFn)();
+typedef bool (*TbStateConditionFn)();
 
-typedef struct StateTableRow
+typedef struct TbStateTableRow
 {
-    const char      *event;
-    const char      *state;
-    StateConditionFn conditionCheck;
-    StateActionFn    entryAction;
-    const char      *nextState;
-    StateActionFn    exitAction;
-    bool             stop;
-} StateTableRow;
+    const char        *event;
+    const char        *state;
+    TbStateConditionFn conditionCheck;
+    TbStateActionFn    entryAction;
+    const char        *nextState;
+    TbStateActionFn    exitAction;
+    bool               stop;
+} TbStateTableRow;
 
-typedef struct Subscriber
+typedef struct TbSubscriber
 {
-    const char *const          name;
-    const StateTableRow *const table;
-    const size_t               tableRowCount;
-    const char                *currentState;
-    StateActionFn              exitAction;
-} Subscriber;
+    const char *const            name;
+    const TbStateTableRow *const table;
+    const size_t                 tableRowCount;
+    const char                  *currentState;
+    TbStateActionFn              exitAction;
+} TbSubscriber;
 
-tbError tbSubscribe(Subscriber *aSubscriber);
+tbError tbSubscribe(TbSubscriber *aSubscriber);
 
-tbError tbPublish(const Event *aEvent);
+tbError tbPublish(const TbEvent *aEvent);
 
 #ifdef __cplusplus
 } // extern "C"
