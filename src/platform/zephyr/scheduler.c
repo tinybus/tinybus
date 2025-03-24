@@ -4,9 +4,9 @@
 #include <zephyr/kernel.h>
 
 #include "tinybus/error.h"
-#include "tinybus/platform/logging.h"
 #include "tinybus/platform/scheduler.h"
 #include "tinybus/tinybus.h"
+#include "tinyplatform/logging.h"
 
 #define EVENT_QUEUE_LEN sm_EVENT_QUEUE_LEN
 K_MSGQ_DEFINE(mBacklogQueue, sizeof(TbEvent), CONFIG_TINYBUS_MAX_BACKLOG, 4);

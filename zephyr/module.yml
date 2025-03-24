@@ -2,3 +2,5 @@ name: tinybus
 build:
   cmake: ./
   kconfig: ./Kconfig
+  depends:
+    - tinyplatform
