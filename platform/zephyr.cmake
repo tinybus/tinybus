@@ -2,11 +2,15 @@ cmake_minimum_required(VERSION 3.20)
 
 tiny_library_named(tinybus)
 tiny_library_link_libraries(zephyr_interface)
+tiny_library_link_libraries(tinylibs)
 
+# we will call zephyr kernel functions in scheduler (k_msgq_get, k_msgq_put)
+tiny_library_link_libraries(kernel)
+
+tiny_include_directories(${TINYBUS_DIR}/include)
+add_subdirectory(${TINYBUS_DIR}/src)
 zephyr_library()
 zephyr_library_sources(${TINYCOMMON_DIR}/src/empty_file.c)
 
-tiny_include_directories(${TINYBUS_DIR}/include)
-
-add_subdirectory(${TINYBUS_DIR}/src)
-zephyr_link_libraries(tinybus)
+# add tinybus to project
+target_link_libraries(app PRIVATE tinybus)
