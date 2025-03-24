@@ -8,12 +8,12 @@
  */
 #include <stdbool.h>
 #include <stdint.h>
-#include "tinybus/platform/logging.h"
 
 #include "tinybus-config.h"
-#include "tinybus/platform/platform.h"
 #include "tinybus/platform/scheduler.h"
 #include "tinybus/tinybus.h"
+#include "tinyplatform/logging.h"
+#include "tinyplatform/platform.h"
 
 static bool handleEvent(const TbSubscriber *aSubscriber, const TbEvent *aEvent)
 {

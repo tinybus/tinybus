@@ -6,9 +6,9 @@
 #include <freertos/task.h>
 
 #include "tinybus/error.h"
-#include "tinybus/platform/logging.h"
 #include "tinybus/platform/scheduler.h"
 #include "tinybus/tinybus.h"
+#include "tinyplatform/logging.h"
 
 static QueueHandle_t       mBacklogQueue = NULL;
 static TbSchedulerNotifyFn mNotifyFn     = NULL;
