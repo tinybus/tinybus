@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 
 tiny_library_named(tinybus)
 tiny_library_link_libraries(zephyr_interface)
-tiny_library_link_libraries(tinylibs)
+tiny_library_link_libraries(tiny)
 
 # we will call zephyr kernel functions in scheduler (k_msgq_get, k_msgq_put)
 tiny_library_link_libraries(kernel)

@@ -30,7 +30,7 @@ void tbSchedulerEventPush(const TbEvent *aEvent)
 {
     if (k_msgq_put(&mBacklogQueue, aEvent, K_NO_WAIT) != 0)
     {
-        tbPlatLog(TB_LOG_LEVEL_ERROR, "Backlog Queue full!");
+        tiLog(TI_LOG_LEVEL_ERROR, "bus", "Backlog Queue full!");
     }
 }
 
@@ -39,7 +39,7 @@ void tbOnSchedulerEvent(TbSchedulerNotifyFn aNotifyFn)
     mNotifyFn = aNotifyFn;
 }
 
-tbError tbPlatformSchedulerInit()
+tbError tiPlatformSchedulerInit()
 {
     k_tid_t id =
         k_thread_create(&m_task_sm_thread_data, sm_task_sm_stack_area, K_THREAD_STACK_SIZEOF(sm_task_sm_stack_area),

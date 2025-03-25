@@ -13,6 +13,6 @@
  * This function initializes the scheduler service.
  *
  */
-tbError tbPlatformSchedulerInit(void);
+tbError tiPlatformSchedulerInit(void);
 
 #endif // TINYBUS_PLATFORM_ESP_H_

@@ -29,7 +29,7 @@ static void *schedulerTask(void *p1)
 
 void tbSchedulerEventPush(const TbEvent *aEvent)
 {
-    tbPlatLog(TB_LOG_LEVEL_INFO, "Scheduler event received %s", aEvent->event);
+    tiLog(TI_LOG_LEVEL_INFO, "Scheduler event received %s", aEvent->event);
     thread_queue_add(&mBacklogQueue, (void *)aEvent, 0);
 }
 
@@ -38,7 +38,7 @@ void tbOnSchedulerEvent(TbSchedulerNotifyFn aNotifyFn)
     mNotifyFn = aNotifyFn;
 }
 
-tbError tbPlatformSchedulerInit()
+tbError tiPlatformSchedulerInit()
 {
     thread_queue_init(&mBacklogQueue);
     pthread_create(&mThread, NULL, schedulerTask, NULL);

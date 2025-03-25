@@ -4,7 +4,7 @@ idf_component_register()
 
 tiny_library_named(tinybus)
 tiny_include_directories(${TINYBUS_DIR}/include)
-tiny_library_link_libraries(tinylibs)
+tiny_library_link_libraries(tiny)
 
 add_subdirectory(${TINYBUS_DIR}/src)
 target_link_libraries(${COMPONENT_LIB} INTERFACE tinybus)

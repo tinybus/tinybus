@@ -9,7 +9,7 @@
 
 #include "platform-posix.h"
 
-void tbPlatformInit(void)
+void tiPlatformInit(void)
 {
-    tbPlatformSchedulerInit();
+    tiPlatformSchedulerInit();
 }

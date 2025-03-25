@@ -32,7 +32,7 @@ void tbSchedulerEventPush(const TbEvent *aEvent)
 {
     if (mBacklogQueue == NULL)
     {
-        tbPlatLog(TB_LOG_LEVEL_ERROR, "Scheduler not initialized");
+        tiLog(TI_LOG_LEVEL_ERROR, "bus", "Scheduler not initialized");
         return;
     }
     xQueueSendToBack(mBacklogQueue, aEvent, (TickType_t)10);
@@ -43,7 +43,7 @@ void tbOnSchedulerEvent(TbSchedulerNotifyFn aNotifyFn)
     mNotifyFn = aNotifyFn;
 }
 
-tbError tbPlatformSchedulerInit()
+tbError tiPlatformSchedulerInit()
 {
     mBacklogQueue = xQueueCreate(CONFIG_TINYBUS_MAX_BACKLOG, sizeof(TbEvent));
     xTaskCreate(schedulerTask, "tb_main", 1024, NULL, 0, NULL);

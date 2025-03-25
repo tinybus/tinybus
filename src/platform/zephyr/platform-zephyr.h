@@ -12,6 +12,6 @@
  * This function initializes the scheduler service.
  *
  */
-tbError tbPlatformSchedulerInit(void);
+tbError tiPlatformSchedulerInit(void);
 
 #endif // PLATFORM_ZEPHYR_H_

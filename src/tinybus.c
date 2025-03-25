@@ -81,8 +81,8 @@ static void onSchedulerNotify(const TbEvent *aEvent)
     /* } */
     if (!eventHandled)
     {
-        /* tbPlatLog(TB_LOG_LEVEL_DEBG, "No match for event '%s' found", aEvent->event); */
-        tbPlatLog(TB_LOG_LEVEL_DEBG, "No match for event found");
+        /* tiLog(TI_LOG_LEVEL_DEBG, "No match for event '%s' found", aEvent->event); */
+        tiLog(TI_LOG_LEVEL_DEBG, "bus", "No match for event found");
     }
 }
 
@@ -90,7 +90,7 @@ static void init()
 {
     // initialize event matrix
     mSubscriberCount = 0;
-    tbPlatformInit();
+    tiPlatformInit();
     // register callback to scheduler implementation
     tbOnSchedulerEvent(onSchedulerNotify);
     mInitialized = true;
@@ -119,18 +119,18 @@ tbError tbSubscribe(TbSubscriber *aSubscriber)
     }
     if (aSubscriber == NULL || aSubscriber->tableRowCount == 0)
     {
-        tbPlatLog(TB_LOG_LEVEL_ERROR, "Subscriber NULL");
+        tiLog(TI_LOG_LEVEL_ERROR, "bus", "Subscriber NULL");
         return TB_ERROR_NONE;
     }
     if (aSubscriber->tableRowCount == 0)
     {
-        tbPlatLog(TB_LOG_LEVEL_DEBG, "tableRowCount == 0");
+        tiLog(TI_LOG_LEVEL_DEBG, "bus", "tableRowCount == 0");
         return TB_ERROR_NONE;
     }
     // test if we have slots left
     if (mSubscriberCount + 1 >= CONFIG_TINYBUS_MAX_SUBSCRIBERS)
     {
-        tbPlatLog(TB_LOG_LEVEL_WARN, "Max count for subscribers reached");
+        tiLog(TI_LOG_LEVEL_WARN, "bus", "Max count for subscribers reached");
         return TB_ERROR_SUBSCRIBER_COUNT_EXCEEDED;
     }
     mSubscriber[mSubscriberCount]             = aSubscriber;
