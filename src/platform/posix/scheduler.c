@@ -29,7 +29,7 @@ static void *schedulerTask(void *p1)
 
 void tbSchedulerEventPush(const TbEvent *aEvent)
 {
-    tiLog(TI_LOG_LEVEL_INFO, "Scheduler event received %s", aEvent->event);
+    tinyPlatLog(TINY_LOG_LEVEL_INFO, "Scheduler event received %s", aEvent->event);
     thread_queue_add(&mBacklogQueue, (void *)aEvent, 0);
 }
 

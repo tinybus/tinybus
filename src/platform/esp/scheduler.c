@@ -32,7 +32,7 @@ void tbSchedulerEventPush(const TbEvent *aEvent)
 {
     if (mBacklogQueue == NULL)
     {
-        tiLog(TI_LOG_LEVEL_ERROR, "bus", "Scheduler not initialized");
+        tinyPlatLog(TINY_LOG_LEVEL_ERROR, "bus", "Scheduler not initialized");
         return;
     }
     xQueueSendToBack(mBacklogQueue, aEvent, (TickType_t)10);

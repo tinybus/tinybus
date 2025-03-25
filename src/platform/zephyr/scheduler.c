@@ -30,7 +30,7 @@ void tbSchedulerEventPush(const TbEvent *aEvent)
 {
     if (k_msgq_put(&mBacklogQueue, aEvent, K_NO_WAIT) != 0)
     {
-        tiLog(TI_LOG_LEVEL_ERROR, "bus", "Backlog Queue full!");
+        tinyPlatLog(TINY_LOG_LEVEL_ERROR, "bus", "Backlog Queue full!");
     }
 }
 

@@ -81,8 +81,8 @@ static void onSchedulerNotify(const TbEvent *aEvent)
     /* } */
     if (!eventHandled)
     {
-        /* tiLog(TI_LOG_LEVEL_DEBG, "No match for event '%s' found", aEvent->event); */
-        tiLog(TI_LOG_LEVEL_DEBG, "bus", "No match for event found");
+        /* tinyPlatLog(TINY_LOG_LEVEL_DEBG, "No match for event '%s' found", aEvent->event); */
+        tinyPlatLog(TINY_LOG_LEVEL_DEBG, "bus", "No match for event found");
     }
 }
 
@@ -119,18 +119,18 @@ tbError tbSubscribe(TbSubscriber *aSubscriber)
     }
     if (aSubscriber == NULL || aSubscriber->tableRowCount == 0)
     {
-        tiLog(TI_LOG_LEVEL_ERROR, "bus", "Subscriber NULL");
+        tinyPlatLog(TINY_LOG_LEVEL_ERROR, "bus", "Subscriber NULL");
         return TB_ERROR_NONE;
     }
     if (aSubscriber->tableRowCount == 0)
     {
-        tiLog(TI_LOG_LEVEL_DEBG, "bus", "tableRowCount == 0");
+        tinyPlatLog(TINY_LOG_LEVEL_DEBG, "bus", "tableRowCount == 0");
         return TB_ERROR_NONE;
     }
     // test if we have slots left
     if (mSubscriberCount + 1 >= CONFIG_TINYBUS_MAX_SUBSCRIBERS)
     {
-        tiLog(TI_LOG_LEVEL_WARN, "bus", "Max count for subscribers reached");
+        tinyPlatLog(TINY_LOG_LEVEL_WARN, "bus", "Max count for subscribers reached");
         return TB_ERROR_SUBSCRIBER_COUNT_EXCEEDED;
     }
     mSubscriber[mSubscriberCount]             = aSubscriber;
