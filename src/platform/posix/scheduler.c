@@ -3,10 +3,11 @@
 
 #include <pthread.h>
 
+#include <tiny/error.h>
+#include <tiny/logging.h>
+
 #include "threadqueue.h"
 #include <unistd.h>
-#include "tinybus/error.h"
-#include "tinybus/platform/logging.h"
 #include "tinybus/platform/scheduler.h"
 #include "tinybus/tinybus.h"
 
