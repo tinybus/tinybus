@@ -28,8 +28,8 @@ Define the **LED_EVENT_LED1_ON** event in the header file to allow `button.c` to
 #include <tinybus/tinybus.h>
 
 // Define the event
-TB_EVENT_NAME(LED, LED1_ON, "led1_on");
-TB_STATE_NAME(LED, START, "start");
+TINY_EVENT_NAME(LED, LED1_ON, "led1_on");
+TINY_STATE_NAME(LED, START, "start");
 ```
 
 #### `led.c`
@@ -55,7 +55,7 @@ static void onLedOn(const Event *apEvent) {
 
 void LedModule() {
     // Subscribe to TinyBus
-    tb_subscribe(TB_SUBSCRIBER("led", stateTable, TB_TABLE_ROW_COUNT(stateTable), LED_STATE_START));
+    tinySubscribe(TINY_SUBSCRIBER("led", stateTable, TINY_TABLE_ROW_COUNT(stateTable), LED_STATE_START));
 }
 ```
 
@@ -67,10 +67,10 @@ void LedModule() {
 #include <tinybus/tinybus.h>
 
 // Define events and states
-TB_EVENT_NAME(BUTTON, INITIALIZE, "initialize");
-TB_EVENT_NAME(BUTTON, PRESSED, "button_short_pressed");
-TB_STATE_NAME(BUTTON, START, "start");
-TB_STATE_NAME(BUTTON, IDLE, "idle");
+TINY_EVENT_NAME(BUTTON, INITIALIZE, "initialize");
+TINY_EVENT_NAME(BUTTON, PRESSED, "button_short_pressed");
+TINY_STATE_NAME(BUTTON, START, "start");
+TINY_STATE_NAME(BUTTON, IDLE, "idle");
 
 // Define actions
 static void initModule(Event *apEvent);
@@ -96,12 +96,12 @@ static const StateTableRow stateTable[] = {
 
 // Subscribe the button module to TinyBus
 void ButtonModule() {
-    tb_subscribe(TB_SUBSCRIBER("button", stateTable, TB_TABLE_ROW_COUNT(stateTable), BUTTON_STATE_START));
+    tinySubscribe(TINY_SUBSCRIBER("button", stateTable, TINY_TABLE_ROW_COUNT(stateTable), BUTTON_STATE_START));
 }
 
 // Handle the button press event and trigger the LED module
 static void onButtonPress(Event *apEvent) {
-    tb_publish(TB_EVENT(LED_EVENT_LED1_ON, NULL, 0)); // Send event to LED module
+    tinyPublish(TINY_EVENT(LED_EVENT_LED1_ON, NULL, 0)); // Send event to LED module
 }
 ```
 

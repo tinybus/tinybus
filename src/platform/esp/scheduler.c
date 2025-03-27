@@ -5,18 +5,19 @@
 #include <freertos/queue.h>
 #include <freertos/task.h>
 
+#include <tiny/error.h>
 #include <tiny/logging.h>
 
-#include "tinybus/error.h"
+#include "tiny/platform/logging.h"
 #include "tinybus/platform/scheduler.h"
 #include "tinybus/tinybus.h"
 
-static QueueHandle_t       mBacklogQueue = NULL;
-static TbSchedulerNotifyFn mNotifyFn     = NULL;
+static QueueHandle_t         mBacklogQueue = NULL;
+static TinySchedulerNotifyFn mNotifyFn     = NULL;
 
 static void schedulerTask(void *aParameters)
 {
-    static TbEvent event;
+    static TinyEvent event;
     for (;;)
     {
         while (xQueueReceive(mBacklogQueue, &event, portMAX_DELAY) != pdPASS)
@@ -29,25 +30,25 @@ static void schedulerTask(void *aParameters)
     }
 }
 
-void tbSchedulerEventPush(const TbEvent *aEvent)
+void tinySchedulerEventPush(const TinyEvent *aEvent)
 {
     if (mBacklogQueue == NULL)
     {
-        tinyPlatLog(TINY_LOG_LEVEL_ERROR, "bus", "Scheduler not initialized");
+        tinyPlatLog(TINY_LOG_LEVEL_CRIT, "bus", "Scheduler not initialized");
         return;
     }
     xQueueSendToBack(mBacklogQueue, aEvent, (TickType_t)10);
 }
 
-void tbOnSchedulerEvent(TbSchedulerNotifyFn aNotifyFn)
+void tinyOnSchedulerEvent(TinySchedulerNotifyFn aNotifyFn)
 {
     mNotifyFn = aNotifyFn;
 }
 
-tbError tiPlatformSchedulerInit()
+tinyError tinySchedulerInit()
 {
-    mBacklogQueue = xQueueCreate(CONFIG_TINYBUS_MAX_BACKLOG, sizeof(TbEvent));
-    xTaskCreate(schedulerTask, "tb_main", 1024, NULL, 0, NULL);
+    mBacklogQueue = xQueueCreate(CONFIG_TINYBUS_MAX_BACKLOG, sizeof(TinyEvent));
+    xTaskCreate(schedulerTask, "tScheduler", 1024, NULL, 0, NULL);
 
-    return TB_ERROR_NONE;
+    return TINY_ERROR_NONE;
 }

@@ -12,13 +12,16 @@
 
 #include <stdarg.h>
 #include <stdint.h>
+
+#include <tiny/error.h>
+
 #include "tinybus/tinybus.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef void (*TbSchedulerNotifyFn)(const TbEvent *aEvent);
+typedef void (*TinySchedulerNotifyFn)(const TinyEvent *aEvent);
 
 /**
  * @addtogroup plat-scheduler
@@ -36,9 +39,11 @@ typedef void (*TbSchedulerNotifyFn)(const TbEvent *aEvent);
  * @param[in]  aFormat     A pointer to the format string.
  * @param[in]  ...         Arguments for the format specification.
  */
-void tbSchedulerEventPush(const TbEvent *aEvent);
+void tinySchedulerEventPush(const TinyEvent *aEvent);
 
-void tbOnSchedulerEvent(TbSchedulerNotifyFn aNotifyFn);
+void tinyOnSchedulerEvent(TinySchedulerNotifyFn aNotifyFn);
+
+tinyError tinySchedulerInit(void);
 
 /**
  * @}

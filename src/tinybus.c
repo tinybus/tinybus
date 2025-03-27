@@ -15,14 +15,14 @@
 #include "tinybus/platform/scheduler.h"
 #include "tinybus/tinybus.h"
 
-static bool handleEvent(const TbSubscriber *aSubscriber, const TbEvent *aEvent)
+static bool handleEvent(const TinySubscriber *aSubscriber, const TinyEvent *aEvent)
 {
     uint8_t i;
     bool    eventHandled = false;
 
     for (i = 0; i < aSubscriber->tableRowCount; i++)
     {
-        const TbStateTableRow *row = &aSubscriber->table[i];
+        const TinyStateTableRow *row = &aSubscriber->table[i];
 
         if ((aEvent->event == row->event) && ((aSubscriber->currentState == row->state) || (row->state == NULL)) &&
             ((row->conditionCheck == NULL || (row->conditionCheck)())))
@@ -48,7 +48,7 @@ static bool handleEvent(const TbSubscriber *aSubscriber, const TbEvent *aEvent)
             // set exit action for next state (only, if the next state is new)
             if (row->nextState != NULL)
             {
-                *(TbStateActionFn *)aSubscriber->exitAction = row->exitAction;
+                *(TinyStateActionFn *)aSubscriber->exitAction = row->exitAction;
             }
             eventHandled = true;
             // break if needed
@@ -62,11 +62,11 @@ static bool handleEvent(const TbSubscriber *aSubscriber, const TbEvent *aEvent)
     return eventHandled;
 }
 
-static size_t        mSubscriberCount;
-static TbSubscriber *mSubscriber[CONFIG_TINYBUS_MAX_SUBSCRIBERS];
-static bool          mInitialized;
+static size_t          mSubscriberCount;
+static TinySubscriber *mSubscriber[CONFIG_TINYBUS_MAX_SUBSCRIBERS];
+static bool            mInitialized;
 
-static void onSchedulerNotify(const TbEvent *aEvent)
+static void onSchedulerNotify(const TinyEvent *aEvent)
 {
     bool eventHandled = false;
     for (size_t i = 0; i < mSubscriberCount; i++)
@@ -76,7 +76,7 @@ static void onSchedulerNotify(const TbEvent *aEvent)
     /* // Free event slot */
     /* if (event.data != NULL) */
     /* { */
-    /*     tb_free((uint8_t *)event.data); */
+    /*     tinyFree((uint8_t *)event.data); */
     /*     event.data = NULL; */
     /* } */
     if (!eventHandled)
@@ -90,13 +90,13 @@ static void init()
 {
     // initialize event matrix
     mSubscriberCount = 0;
-    tiPlatformInit();
+    tinySchedulerInit();
     // register callback to scheduler implementation
-    tbOnSchedulerEvent(onSchedulerNotify);
+    tinyOnSchedulerEvent(onSchedulerNotify);
     mInitialized = true;
 }
 
-tbError tbPublish(const TbEvent *aEvent)
+tinyError tinyPublish(const TinyEvent *aEvent)
 {
     // we need to copy the data within the event to the heap
     // it will be freed, after the event is processed
@@ -105,12 +105,12 @@ tbError tbPublish(const TbEvent *aEvent)
     /* Event event = {.event = apEvent->event, .data = dataCopy, .dataLen = apEvent->dataLen}; */
     // FreeRTOS queue makes a copy of the data, it's save to use
     // a local variable (event)
-    tbSchedulerEventPush(aEvent);
+    tinySchedulerEventPush(aEvent);
 
-    return TB_ERROR_NONE;
+    return TINY_ERROR_NONE;
 }
 
-tbError tbSubscribe(TbSubscriber *aSubscriber)
+tinyError tinySubscribe(TinySubscriber *aSubscriber)
 {
     // let the first subscription initialize the bus
     if (!mInitialized)
@@ -119,23 +119,23 @@ tbError tbSubscribe(TbSubscriber *aSubscriber)
     }
     if (aSubscriber == NULL || aSubscriber->tableRowCount == 0)
     {
-        tinyPlatLog(TINY_LOG_LEVEL_ERROR, "bus", "Subscriber NULL");
-        return TB_ERROR_NONE;
+        tinyPlatLog(TINY_LOG_LEVEL_CRIT, "bus", "Subscriber NULL");
+        return TINY_ERROR_NONE;
     }
     if (aSubscriber->tableRowCount == 0)
     {
         tinyPlatLog(TINY_LOG_LEVEL_DEBG, "bus", "tableRowCount == 0");
-        return TB_ERROR_NONE;
+        return TINY_ERROR_NONE;
     }
     // test if we have slots left
     if (mSubscriberCount + 1 >= CONFIG_TINYBUS_MAX_SUBSCRIBERS)
     {
         tinyPlatLog(TINY_LOG_LEVEL_WARN, "bus", "Max count for subscribers reached");
-        return TB_ERROR_SUBSCRIBER_COUNT_EXCEEDED;
+        return TINY_ERROR_SUBSCRIBER_COUNT_EXCEEDED;
     }
     mSubscriber[mSubscriberCount]             = aSubscriber;
     mSubscriber[mSubscriberCount]->exitAction = NULL;
 
     mSubscriberCount++;
-    return TB_ERROR_NONE;
+    return TINY_ERROR_NONE;
 };

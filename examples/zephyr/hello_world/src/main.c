@@ -19,17 +19,17 @@ const char *TAG = "main";
  *****************************************************************************/
 
 // 1. Define the events using in the state table
-TB_EVENT_NAME(MAIN, HELLO_WORLD, "HelloWorld");
-TB_STATE_NAME(MAIN, START, "Start");
+TINY_EVENT_NAME(MAIN, HELLO_WORLD, "HelloWorld");
+TINY_STATE_NAME(MAIN, START, "Start");
 
 // 2. Declare the actions using in the state table
-static void onHelloWorld(const TbEvent *aEvent);
+static void onHelloWorld(const TinyEvent *aEvent);
 
 // 3. Glue everything together
-static const TbStateTableRow stateTable[] = {{
+static const TinyStateTableRow stateTable[] = {{
     .state = MAIN_STATE_START,                // only process the event, if the current state
-                                              // match. TB_STATE_INITIAL is the default state.
-                                              // use TB_STATE_ANY, if this should be ignored
+                                              // match. TINY_STATE_INITIAL is the default state.
+                                              // use TINY_STATE_ANY, if this should be ignored
     .event          = MAIN_EVENT_HELLO_WORLD, // process if the event matches
     .conditionCheck = NULL,                   // No condition function.  The action is always executed.
     .entryAction    = onHelloWorld,           // The function to call when the event occurs.
@@ -40,7 +40,7 @@ static const TbStateTableRow stateTable[] = {{
 
 /*****************************************************************************/
 // Implement the Actions
-static void onHelloWorld(const TbEvent *aEvent)
+static void onHelloWorld(const TinyEvent *aEvent)
 {
     LOG_INF("Action onHelloWorld() called from TinyBus");
 }
@@ -50,7 +50,7 @@ int main(void)
     // Subscribe to the TinyBus using the state table. This registers the module
     // to receive and process events according to the defined rules.
     LOG_WRN("Subscribe module '%s' to TinyBus", TAG);
-    tbSubscribe(TB_SUBSCRIBER(TAG, stateTable, TB_TABLE_ROW_COUNT(stateTable), MAIN_STATE_START));
+    tinySubscribe(TINY_SUBSCRIBER(TAG, stateTable, TINY_TABLE_ROW_COUNT(stateTable), MAIN_STATE_START));
 
     while (true)
     {
@@ -59,7 +59,7 @@ int main(void)
         // event in the state table and execute the corresponding action
         // (onHelloWorld in this case).  The NULL and 0 arguments indicate no data
         // is being sent with the event.    // publish an event to the TinyBus
-        tbPublish(TB_EVENT(MAIN_EVENT_HELLO_WORLD, NULL, 0));
+        tinyPublish(TINY_EVENT(MAIN_EVENT_HELLO_WORLD, NULL, 0));
 
         // next event in 1 second
         k_sleep(K_SECONDS(1));
