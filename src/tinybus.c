@@ -81,8 +81,8 @@ static void onSchedulerNotify(const TinyEvent *aEvent)
     /* } */
     if (!eventHandled)
     {
-        /* tinyPlatLog(TINY_LOG_LEVEL_DEBG, "No match for event '%s' found", aEvent->event); */
-        tinyPlatLog(TINY_LOG_LEVEL_DEBG, "bus", "No match for event found");
+        tinyPlatLog(TINY_LOG_LEVEL_DEBG, "bus", "No match for event '%s' found", aEvent->event);
+        /* tinyPlatLog(TINY_LOG_LEVEL_DEBG, "bus", "No match for event found"); */
     }
 }
 

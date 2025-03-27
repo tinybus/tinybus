@@ -9,6 +9,7 @@
 
 #include <pthread.h>
 #include <stdio.h>
+#include <tiny/logging.h>
 #include <unistd.h>
 #include "tinybus/tinybus.h"
 
@@ -41,19 +42,19 @@ static const TinyStateTableRow stateTable[] = {{
 // Implement the Actions
 static void onHelloWorld(const TinyEvent *aEvent)
 {
-    printf("Action onHelloWorld() called from TinyBus");
+    tinyLogCritPlat("Action onHelloWorld() called from TinyBus");
 }
 
 int main(void)
 {
     // Subscribe to the TinyBus using the state table. This registers the module
     // to receive and process events according to the defined rules.
-    printf("Subscribe module '%s' to TinyBus\n", TAG);
+    tinyLogInfoPlat("Subscribe module '%s' to TinyBus", TAG);
     tinySubscribe(TINY_SUBSCRIBER(TAG, stateTable, TINY_TABLE_ROW_COUNT(stateTable), MAIN_STATE_START));
 
     while (true)
     {
-        printf("Publish HELLO_WORLD event\n");
+        tinyLogInfoPlat("Publish HELLO_WORLD event");
         // Publish the HELLO_WORLD event.  The TinyBus will then look up this
         // event in the state table and execute the corresponding action
         // (onHelloWorld in this case).  The NULL and 0 arguments indicate no data
@@ -61,7 +62,7 @@ int main(void)
         tinyPublish(TINY_EVENT(MAIN_EVENT_HELLO_WORLD, NULL, 0));
 
         // next event in 1 second
-        sleep(1);
+        sleep(5);
     }
     return 0;
 }

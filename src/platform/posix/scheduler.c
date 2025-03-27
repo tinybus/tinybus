@@ -8,6 +8,7 @@
 
 #include "threadqueue.h"
 #include <unistd.h>
+#include "tiny/platform/logging.h"
 #include "tinybus/platform/scheduler.h"
 #include "tinybus/tinybus.h"
 
@@ -17,20 +18,20 @@ static struct threadqueue    mBacklogQueue;
 
 static void *schedulerTask(void *p1)
 {
-    static TinyEvent event;
+    static struct threadmsg msg;
     for (;;)
     {
-        thread_queue_get(&mBacklogQueue, NULL, (void *)&event);
+        thread_queue_get(&mBacklogQueue, NULL, &msg);
         if (mNotifyFn != NULL)
         {
-            mNotifyFn(&event);
+            mNotifyFn(msg.data);
         }
     }
 }
 
 void tinySchedulerEventPush(const TinyEvent *aEvent)
 {
-    tinyPlatLog(TINY_LOG_LEVEL_INFO, "Scheduler event received %s", aEvent->event);
+    tinyLogDebgPlat("Scheduler event received %s", aEvent->event);
     thread_queue_add(&mBacklogQueue, (void *)aEvent, 0);
 }
 

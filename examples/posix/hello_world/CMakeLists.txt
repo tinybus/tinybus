@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.20.0)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(hello_world)
 
+set(CONFIG_TINYBUS_LOG_LEVEL 3)
 # include tinybus module
 #
 # Note the second, binary_dir parameter requires the added subdirectory to have
