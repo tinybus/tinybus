@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.20)
 
-idf_component_register()
-
 tiny_library_named(tinybus)
+
+# Include tinyplatform
+add_subdirectory(${PROJECT_DIR}/../tinyplatform ${PROJECT_DIR}/build/tiny)
+
 tiny_include_directories(${PROJECT_DIR}/include)
 tiny_library_link_libraries(tiny)
 add_subdirectory(${PROJECT_DIR}/src)
-
-target_link_libraries(${COMPONENT_LIB} INTERFACE tinybus)

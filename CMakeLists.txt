@@ -9,9 +9,9 @@ endif()
 set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD 11)
 
-set(TINYBUS_DIR ${CMAKE_CURRENT_LIST_DIR})
+set(PROJECT_DIR ${CMAKE_CURRENT_LIST_DIR})
 set(TINYCOMMON_DIR ${CMAKE_CURRENT_LIST_DIR}/lib/tinycommon)
-set(CMAKE_MODULE_PATH "${TINYBUS_DIR}/platform" "${TINYCOMMON_DIR}/cmake")
+set(CMAKE_MODULE_PATH "${PROJECT_DIR}/platform" "${TINYCOMMON_DIR}/cmake")
 
 # add build extensions for tinylibs
 include(extensions)
