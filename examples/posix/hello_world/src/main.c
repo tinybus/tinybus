@@ -19,8 +19,8 @@ const char *TAG = "main";
  *****************************************************************************/
 
 // 1. Define the events using in the state table
-TINY_EVENT_NAME(MAIN, HELLO_WORLD, "HelloWorld");
-TINY_STATE_NAME(MAIN, START, "Start");
+TY_EVENT_NAME(MAIN, HELLO_WORLD, "HelloWorld");
+TY_STATE_NAME(MAIN, START, "Start");
 
 // 2. Declare the actions using in the state table
 static void onHelloWorld(const TinyEvent *aEvent);
@@ -28,8 +28,8 @@ static void onHelloWorld(const TinyEvent *aEvent);
 // 3. Glue everything together
 static const TinyStateTableRow stateTable[] = {{
     .state = MAIN_STATE_START,                // only process the event, if the current state
-                                              // match. TINY_STATE_INITIAL is the default state.
-                                              // use TINY_STATE_ANY, if this should be ignored
+                                              // match. TY_STATE_INITIAL is the default state.
+                                              // use TY_STATE_ANY, if this should be ignored
     .event          = MAIN_EVENT_HELLO_WORLD, // process if the event matches
     .conditionCheck = NULL,                   // No condition function.  The action is always executed.
     .entryAction    = onHelloWorld,           // The function to call when the event occurs.
@@ -38,28 +38,29 @@ static const TinyStateTableRow stateTable[] = {{
     .stop           = true                    // Stop processing after this entry (this is the default case)
 }};
 
+static TinySubscriber mSubscriber = TY_SUBSCRIBER("app", stateTable, TY_TABLE_ROW_COUNT(stateTable), MAIN_STATE_START);
 /*****************************************************************************/
 // Implement the Actions
 static void onHelloWorld(const TinyEvent *aEvent)
 {
-    tinyLogCritPlat("Action onHelloWorld() called from TinyBus");
+    tyLogCritPlat("Action onHelloWorld() called from TinyBus");
 }
 
 int main(void)
 {
     // Subscribe to the TinyBus using the state table. This registers the module
     // to receive and process events according to the defined rules.
-    tinyLogInfoPlat("Subscribe module '%s' to TinyBus", TAG);
-    tinySubscribe(TINY_SUBSCRIBER(TAG, stateTable, TINY_TABLE_ROW_COUNT(stateTable), MAIN_STATE_START));
+    tyLogInfoPlat("Subscribe module '%s' to TinyBus", TAG);
+    tinySubscribe(&mSubscriber);
 
     while (true)
     {
-        tinyLogInfoPlat("Publish HELLO_WORLD event");
+        tyLogInfoPlat("Publish HELLO_WORLD event");
         // Publish the HELLO_WORLD event.  The TinyBus will then look up this
         // event in the state table and execute the corresponding action
         // (onHelloWorld in this case).  The NULL and 0 arguments indicate no data
         // is being sent with the event.    // publish an event to the TinyBus
-        tinyPublish(TINY_EVENT(MAIN_EVENT_HELLO_WORLD, NULL, 0));
+        tyPublish(MAIN_EVENT_HELLO_WORLD, NULL, 0);
 
         // next event in 1 second
         sleep(5);

@@ -7,7 +7,7 @@ tiny_library_include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 if(CONFIG_TINYBUS_LOG_LEVEL)
   set(CONFIG_TINYBUS_LOG_LEVEL ${CONFIG_TINYBUS_LOG_LEVEL})
 else()
-  set(CONFIG_TINYBUS_LOG_LEVEL TINY_LOG_LEVEL_CRIT)
+  set(CONFIG_TINYBUS_LOG_LEVEL TY_LOG_LEVEL_CRIT)
 endif()
 
 tiny_library_compile_definitions(

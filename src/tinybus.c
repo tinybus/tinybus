@@ -65,9 +65,13 @@ static bool handleEvent(const TinySubscriber *aSubscriber, const TinyEvent *aEve
 static size_t          mSubscriberCount;
 static TinySubscriber *mSubscriber[CONFIG_TINYBUS_MAX_SUBSCRIBERS];
 static bool            mInitialized;
-
-static void onSchedulerNotify(const TinyEvent *aEvent)
+static void            onSchedulerNotify(const TinyEvent *aEvent)
 {
+    if (aEvent == NULL || aEvent->event == NULL)
+    {
+        tyPlatLog(TY_LOG_LEVEL_CRIT, "bus", "Event is NULL");
+        return;
+    }
     bool eventHandled = false;
     for (size_t i = 0; i < mSubscriberCount; i++)
     {
@@ -81,8 +85,8 @@ static void onSchedulerNotify(const TinyEvent *aEvent)
     /* } */
     if (!eventHandled)
     {
-        tinyPlatLog(TINY_LOG_LEVEL_DEBG, "bus", "No match for event '%s' found", aEvent->event);
-        /* tinyPlatLog(TINY_LOG_LEVEL_DEBG, "bus", "No match for event found"); */
+        tyPlatLog(TY_LOG_LEVEL_DEBG, "bus", "No match for event '%s' found", aEvent->event);
+        /* tyPlatLog(TY_LOG_LEVEL_DEBG, "bus", "No match for event found"); */
     }
 }
 
@@ -96,7 +100,7 @@ static void init()
     mInitialized = true;
 }
 
-tinyError tinyPublish(const TinyEvent *aEvent)
+tinyError tyPublish(const char *aEventName, void *aData, size_t aDataLen)
 {
     // we need to copy the data within the event to the heap
     // it will be freed, after the event is processed
@@ -105,9 +109,10 @@ tinyError tinyPublish(const TinyEvent *aEvent)
     /* Event event = {.event = apEvent->event, .data = dataCopy, .dataLen = apEvent->dataLen}; */
     // FreeRTOS queue makes a copy of the data, it's save to use
     // a local variable (event)
-    tinySchedulerEventPush(aEvent);
+    TinyEvent event = {.event = aEventName, .data = aData, .dataLen = aDataLen};
+    tinySchedulerEventPush(&event);
 
-    return TINY_ERROR_NONE;
+    return TY_ERROR_NONE;
 }
 
 tinyError tinySubscribe(TinySubscriber *aSubscriber)
@@ -119,23 +124,23 @@ tinyError tinySubscribe(TinySubscriber *aSubscriber)
     }
     if (aSubscriber == NULL || aSubscriber->tableRowCount == 0)
     {
-        tinyPlatLog(TINY_LOG_LEVEL_CRIT, "bus", "Subscriber NULL");
-        return TINY_ERROR_NONE;
+        tyPlatLog(TY_LOG_LEVEL_CRIT, "bus", "Subscriber NULL");
+        return TY_ERROR_NONE;
     }
     if (aSubscriber->tableRowCount == 0)
     {
-        tinyPlatLog(TINY_LOG_LEVEL_DEBG, "bus", "tableRowCount == 0");
-        return TINY_ERROR_NONE;
+        tyPlatLog(TY_LOG_LEVEL_DEBG, "bus", "tableRowCount == 0");
+        return TY_ERROR_NONE;
     }
     // test if we have slots left
     if (mSubscriberCount + 1 >= CONFIG_TINYBUS_MAX_SUBSCRIBERS)
     {
-        tinyPlatLog(TINY_LOG_LEVEL_WARN, "bus", "Max count for subscribers reached");
-        return TINY_ERROR_SUBSCRIBER_COUNT_EXCEEDED;
+        tyPlatLog(TY_LOG_LEVEL_WARN, "bus", "Max count for subscribers reached");
+        return TY_ERROR_SUBSCRIBER_COUNT_EXCEEDED;
     }
     mSubscriber[mSubscriberCount]             = aSubscriber;
     mSubscriber[mSubscriberCount]->exitAction = NULL;
 
     mSubscriberCount++;
-    return TINY_ERROR_NONE;
+    return TY_ERROR_NONE;
 };

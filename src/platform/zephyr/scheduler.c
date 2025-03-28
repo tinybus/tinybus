@@ -31,7 +31,7 @@ void tinySchedulerEventPush(const TinyEvent *aEvent)
 {
     if (k_msgq_put(&mBacklogQueue, aEvent, K_NO_WAIT) != 0)
     {
-        tinyPlatLog(TINY_LOG_LEVEL_CRIT, "bus", "Backlog Queue full!");
+        tyPlatLog(TY_LOG_LEVEL_CRIT, "bus", "Backlog Queue full!");
     }
 }
 
@@ -45,6 +45,6 @@ tinyError tinySchedulerInit()
     k_tid_t id =
         k_thread_create(&m_task_sm_thread_data, sm_task_sm_stack_area, K_THREAD_STACK_SIZEOF(sm_task_sm_stack_area),
                         schedulerTask, NULL, NULL, NULL, K_LOWEST_APPLICATION_THREAD_PRIO, 0, K_NO_WAIT);
-    k_thread_name_set(id, "TINY_SCHEDULER");
-    return TINY_ERROR_NONE;
+    k_thread_name_set(id, "TY_SCHEDULER");
+    return TY_ERROR_NONE;
 }

@@ -20,14 +20,14 @@ extern "C" {
 #endif
 
 // Macro for genereting a const char* from a string literal
-#define TINY_EVENT_NAME(tag, name, value) const char *const tag##_EVENT_##name = value;
-#define TINY_STATE_NAME(tag, name, value) const char *const tag##_STATE_##name = value;
-#define TINY_EVENT(event, data, len) (&(TinyEvent){event, data, len})
-#define TINY_SUBSCRIBER(module, table, tableRowCount, startState) \
-    (&(TinySubscriber){module, table, tableRowCount, startState, NULL})
+#define TY_EVENT_NAME(tag, name, value) const char *const tag##_EVENT_##name = value;
+#define TY_STATE_NAME(tag, name, value) const char *const tag##_STATE_##name = value;
+#define TY_EVENT(event, data, len) ((TinyEvent){event, data, len})
+#define TY_SUBSCRIBER(module, table, tableRowCount, startState) \
+    ((TinySubscriber){module, table, tableRowCount, startState, NULL})
 
 // ARRAY_SIZE ... (be careful, this is base on sizeof, only use on arrays)
-#define TINY_TABLE_ROW_COUNT(x) (sizeof(x) / sizeof((x)[0]))
+#define TY_TABLE_ROW_COUNT(x) (sizeof(x) / sizeof((x)[0]))
 
 typedef struct TinyEvent
 {
@@ -42,8 +42,8 @@ typedef bool (*TinyStateConditionFn)();
 
 typedef struct TinyStateTableRow
 {
-    const char          *event;
     const char          *state;
+    const char          *event;
     TinyStateConditionFn conditionCheck;
     TinyStateActionFn    entryAction;
     const char          *nextState;
@@ -62,7 +62,7 @@ typedef struct TinySubscriber
 
 tinyError tinySubscribe(TinySubscriber *aSubscriber);
 
-tinyError tinyPublish(const TinyEvent *aEvent);
+tinyError tyPublish(const char *aEventName, void *aData, size_t aDataLen);
 
 #ifdef __cplusplus
 } // extern "C"

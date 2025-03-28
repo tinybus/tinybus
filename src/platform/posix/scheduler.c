@@ -24,14 +24,21 @@ static void *schedulerTask(void *p1)
         thread_queue_get(&mBacklogQueue, NULL, &msg);
         if (mNotifyFn != NULL)
         {
-            mNotifyFn(msg.data);
+            if (msg.data != NULL)
+            {
+                mNotifyFn(msg.data);
+            }
+            else
+            {
+                tyLogCritPlat("Scheduler event received without data");
+            }
         }
     }
 }
 
 void tinySchedulerEventPush(const TinyEvent *aEvent)
 {
-    tinyLogDebgPlat("Scheduler event received %s", aEvent->event);
+    tyLogDebgPlat("Scheduler event received %s", aEvent->event);
     thread_queue_add(&mBacklogQueue, (void *)aEvent, 0);
 }
 
@@ -44,5 +51,5 @@ tinyError tinySchedulerInit()
 {
     thread_queue_init(&mBacklogQueue);
     pthread_create(&mThread, NULL, schedulerTask, NULL);
-    return TINY_ERROR_NONE;
+    return TY_ERROR_NONE;
 }

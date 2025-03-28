@@ -34,7 +34,7 @@ void tinySchedulerEventPush(const TinyEvent *aEvent)
 {
     if (mBacklogQueue == NULL)
     {
-        tinyPlatLog(TINY_LOG_LEVEL_CRIT, "bus", "Scheduler not initialized");
+        tyPlatLog(TY_LOG_LEVEL_CRIT, "bus", "Scheduler not initialized");
         return;
     }
     xQueueSendToBack(mBacklogQueue, aEvent, (TickType_t)10);
@@ -50,5 +50,5 @@ tinyError tinySchedulerInit()
     mBacklogQueue = xQueueCreate(CONFIG_TINYBUS_MAX_BACKLOG, sizeof(TinyEvent));
     xTaskCreate(schedulerTask, "tScheduler", 1024, NULL, 0, NULL);
 
-    return TINY_ERROR_NONE;
+    return TY_ERROR_NONE;
 }
