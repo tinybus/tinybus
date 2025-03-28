@@ -1,17 +1,17 @@
-# Contributing to TinyBus
+# Contributing to TyBus
 
-Thank you for your interest in contributing to TinyBus! We welcome contributions
+Thank you for your interest in contributing to TyBus! We welcome contributions
 of all kinds, including bug fixes, new features, documentation improvements,
 and more.  This document outlines the guidelines we ask contributors to follow.
 
 ## Getting Started
 
-1. **Fork the repository:** Start by forking the TinyBus repository on GitHub. This creates your own copy of the project that you can modify.
+1. **Fork the repository:** Start by forking the TyBus repository on GitHub. This creates your own copy of the project that you can modify.
 
 2. **Clone your fork:** Clone your forked repository to your local machine:
 
 ```bash
-   git clone https://github.com/tinybus/tinybus.git
+   git clone https://github.com/tybus/tybus.git
 ```
 
 3.  **Create a branch:** Create a new branch for your contribution.  Use a descriptive name that reflects the purpose of your changes:
@@ -48,7 +48,7 @@ or
     git push origin feature/new-feature
 ```
 
-3.  **Create a pull request:**  Go to the TinyBus repository on GitHub and create a pull request from your branch to the `main` branch.  Provide a clear description of your changes and reference any relevant issues.
+3.  **Create a pull request:**  Go to the TyBus repository on GitHub and create a pull request from your branch to the `main` branch.  Provide a clear description of your changes and reference any relevant issues.
 
 ## Commit Message Format
 
@@ -84,7 +84,7 @@ Must be one of the following:
 
 ## License
 
-By contributing to TinyBus, you agree that your contributions will be licensed under the [LICENSE](https://github.com/tinybus/tinybus/blob/master/LICENSE)
+By contributing to TyBus, you agree that your contributions will be licensed under the [LICENSE](https://github.com/tybus/tybus/blob/master/LICENSE)
 
 ## Questions?
 

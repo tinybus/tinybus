@@ -6,11 +6,11 @@
 #include <tiny/error.h>
 #include <tiny/logging.h>
 
-#include "tinybus/platform/scheduler.h"
-#include "tinybus/tinybus.h"
+#include "tybus/platform/scheduler.h"
+#include "tybus/tybus.h"
 
 #define EVENT_QUEUE_LEN sm_EVENT_QUEUE_LEN
-K_MSGQ_DEFINE(mBacklogQueue, sizeof(TinyEvent), CONFIG_TINYBUS_MAX_BACKLOG, 4);
+K_MSGQ_DEFINE(mBacklogQueue, sizeof(TinyEvent), CONFIG_TYBUS_MAX_BACKLOG, 4);
 struct k_thread m_task_sm_thread_data;
 K_THREAD_STACK_DEFINE(sm_task_sm_stack_area, 1024);
 static TinySchedulerNotifyFn mNotifyFn = NULL;

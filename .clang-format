@@ -60,9 +60,9 @@ ForEachMacros:
   - Q_FOREACH
   - BOOST_FOREACH
 IncludeCategories:
-  - Regex:           '^<tinybus/.*/'
+  - Regex:           '^<tybus/.*/'
     Priority:        4
-  - Regex:           '^<tinybus/'
+  - Regex:           '^<tybus/'
     Priority:        3
   - Regex:           '^<'
     Priority:        2

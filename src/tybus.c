@@ -4,16 +4,16 @@
 /**
  * @file
  * @brief
- *   TinyBus implementation
+ *   TyBus implementation
  */
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "tinybus-config.h"
+#include "tybus-config.h"
 #include <tiny/logging.h>
 #include <tiny/platform.h>
-#include "tinybus/platform/scheduler.h"
-#include "tinybus/tinybus.h"
+#include "tybus/platform/scheduler.h"
+#include "tybus/tybus.h"
 
 static bool handleEvent(const TinySubscriber *aSubscriber, const TinyEvent *aEvent)
 {
@@ -63,7 +63,7 @@ static bool handleEvent(const TinySubscriber *aSubscriber, const TinyEvent *aEve
 }
 
 static size_t          mSubscriberCount;
-static TinySubscriber *mSubscriber[CONFIG_TINYBUS_MAX_SUBSCRIBERS];
+static TinySubscriber *mSubscriber[CONFIG_TYBUS_MAX_SUBSCRIBERS];
 static bool            mInitialized;
 static void            onSchedulerNotify(const TinyEvent *aEvent)
 {
@@ -133,7 +133,7 @@ tinyError tinySubscribe(TinySubscriber *aSubscriber)
         return TY_ERROR_NONE;
     }
     // test if we have slots left
-    if (mSubscriberCount + 1 >= CONFIG_TINYBUS_MAX_SUBSCRIBERS)
+    if (mSubscriberCount + 1 >= CONFIG_TYBUS_MAX_SUBSCRIBERS)
     {
         tyPlatLog(TY_LOG_LEVEL_WARN, "bus", "Max count for subscribers reached");
         return TY_ERROR_SUBSCRIBER_COUNT_EXCEEDED;

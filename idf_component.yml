@@ -2,9 +2,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 version: 1.0.4
-description: "TinyBus Library - The Smallest State Machine - Message Broker for Microcontrollers?"
+description: "TyBus Library - The Smallest State Machine - Message Broker for Microcontrollers?"
 license: "Apache-2.0"
-repository: "https://github.com/tinybus/tinybus"
+repository: "https://github.com/tybus/tybus"
 dependencies:
   idf: ">=5.0"
   typlatform:

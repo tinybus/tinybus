@@ -6,7 +6,7 @@ list(APPEND EXTRA_ZEPHYR_MODULES ${CMAKE_CURRENT_SOURCE_DIR}/../../../
      ${CMAKE_CURRENT_SOURCE_DIR}/../../../../typlatform)
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(hello_world)
-target_link_libraries(app PRIVATE tinybus)
+target_link_libraries(app PRIVATE tybus)
 
 # Application Files
 add_subdirectory(src)

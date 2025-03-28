@@ -7,8 +7,8 @@
  *   Main include for C based applications
  */
 
-#ifndef TINYBUS_TINYBUS_H
-#define TINYBUS_TINYBUS_H
+#ifndef TYBUS_TYBUS_H
+#define TYBUS_TYBUS_H
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -68,4 +68,4 @@ tinyError tyPublish(const char *aEventName, void *aData, size_t aDataLen);
 } // extern "C"
 #endif
 
-#endif // TINYBUS_TINYBUS_H
+#endif // TYBUS_TYBUS_H

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-ty_library_named(tinybus)
+ty_library_named(tybus)
 ty_library_link_libraries(zephyr_interface)
 ty_library_link_libraries(tiny)
 

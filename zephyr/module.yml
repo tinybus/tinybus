@@ -1,4 +1,4 @@
-name: tinybus
+name: tybus
 build:
   cmake: ./
   kconfig: ./Kconfig

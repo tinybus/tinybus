@@ -7,15 +7,15 @@
  *   This file includes the platform abstraction for the scheduler service.
  */
 
-#ifndef TINYBUS_PLATFORM_SCHEDULER_H_
-#define TINYBUS_PLATFORM_SCHEDULER_H_
+#ifndef TYBUS_PLATFORM_SCHEDULER_H_
+#define TYBUS_PLATFORM_SCHEDULER_H_
 
 #include <stdarg.h>
 #include <stdint.h>
 
 #include <tiny/error.h>
 
-#include "tinybus/tinybus.h"
+#include "tybus/tybus.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -53,4 +53,4 @@ tinyError tinySchedulerInit(void);
 } // extern "C"
 #endif
 
-#endif // TINYBUS_PLATFORM_SCHEDULER_H_
+#endif // TYBUS_PLATFORM_SCHEDULER_H_

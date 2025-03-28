@@ -9,8 +9,8 @@
 #include "threadqueue.h"
 #include <unistd.h>
 #include "tiny/platform/logging.h"
-#include "tinybus/platform/scheduler.h"
-#include "tinybus/tinybus.h"
+#include "tybus/platform/scheduler.h"
+#include "tybus/tybus.h"
 
 static pthread_t             mThread;
 static TinySchedulerNotifyFn mNotifyFn = NULL;

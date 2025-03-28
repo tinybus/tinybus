@@ -1,7 +1,7 @@
 # Nonsense Hello World Logger  
 
 This is a **rather nonsense example** that logs `"Hello World"` to the console.  
-Why? Because we can 🚀 —and because it demonstrates the basic usage of TinyBus.  
+Why? Because we can 🚀 —and because it demonstrates the basic usage of TyBus.  
 
 ## Running the Example  
 
@@ -36,22 +36,22 @@ static const StateTableRow stateTable[] = {{
 
 /*****************************************************************************/
 // Implement the Actions
-static void onHelloWorld(const Event *aEvent) { ESP_LOGI(TAG, "Action onHelloWorld() called from TinyBus"); }
+static void onHelloWorld(const Event *aEvent) { ESP_LOGI(TAG, "Action onHelloWorld() called from TyBus"); }
 
 void app_main()
 {
-    // Subscribe to the TinyBus using the state table. This registers the module
+    // Subscribe to the TyBus using the state table. This registers the module
     // to receive and process events according to the defined rules.
-    ESP_LOGI(TAG, "Subscribe module '%s' to TinyBus", TAG);
+    ESP_LOGI(TAG, "Subscribe module '%s' to TyBus", TAG);
     tinySubscribe(TY_SUBSCRIBER(TAG, stateTable, TY_TABLE_ROW_COUNT(stateTable), MAIN_STATE_START));
 
     while (true)
     {
         ESP_LOGI(TAG, "Publish HELLO_WORLD event");
-        // Publish the HELLO_WORLD event.  The TinyBus will then look up this
+        // Publish the HELLO_WORLD event.  The TyBus will then look up this
         // event in the state table and execute the corresponding action
         // (onHelloWorld in this case).  The NULL and 0 arguments indicate no data
-        // is being sent with the event.    // publish an event to the TinyBus
+        // is being sent with the event.    // publish an event to the TyBus
         tyPublish(TY_EVENT(MAIN_EVENT_HELLO_WORLD, NULL, 0));
 
         // next event in 1 second

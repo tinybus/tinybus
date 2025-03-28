@@ -4,14 +4,14 @@
 /**
  * @file
  * @brief
- *   TinyBus simplest example: Hello World
+ *   TyBus simplest example: Hello World
  */
 
 #include <pthread.h>
 #include <stdio.h>
 #include <tiny/logging.h>
 #include <unistd.h>
-#include "tinybus/tinybus.h"
+#include "tybus/tybus.h"
 
 const char *TAG = "main";
 /*****************************************************************************
@@ -43,23 +43,23 @@ static TinySubscriber mSubscriber = TY_SUBSCRIBER("app", stateTable, TY_TABLE_RO
 // Implement the Actions
 static void onHelloWorld(const TinyEvent *aEvent)
 {
-    tyLogCritPlat("Action onHelloWorld() called from TinyBus");
+    tyLogCritPlat("Action onHelloWorld() called from TyBus");
 }
 
 int main(void)
 {
-    // Subscribe to the TinyBus using the state table. This registers the module
+    // Subscribe to the TyBus using the state table. This registers the module
     // to receive and process events according to the defined rules.
-    tyLogInfoPlat("Subscribe module '%s' to TinyBus", TAG);
+    tyLogInfoPlat("Subscribe module '%s' to TyBus", TAG);
     tinySubscribe(&mSubscriber);
 
     while (true)
     {
         tyLogInfoPlat("Publish HELLO_WORLD event");
-        // Publish the HELLO_WORLD event.  The TinyBus will then look up this
+        // Publish the HELLO_WORLD event.  The TyBus will then look up this
         // event in the state table and execute the corresponding action
         // (onHelloWorld in this case).  The NULL and 0 arguments indicate no data
-        // is being sent with the event.    // publish an event to the TinyBus
+        // is being sent with the event.    // publish an event to the TyBus
         tyPublish(MAIN_EVENT_HELLO_WORLD, NULL, 0);
 
         // next event in 1 second

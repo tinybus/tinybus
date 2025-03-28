@@ -4,12 +4,12 @@
 /**
  * @file
  * @brief
- *   TinyBus simplest example: Hello World
+ *   TyBus simplest example: Hello World
  */
 
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
-#include "tinybus/tinybus.h"
+#include "tybus/tybus.h"
 
 #define LOG_MODULE_NAME main
 LOG_MODULE_REGISTER(main);
@@ -42,23 +42,23 @@ static const TinyStateTableRow stateTable[] = {{
 // Implement the Actions
 static void onHelloWorld(const TinyEvent *aEvent)
 {
-    LOG_INF("Action onHelloWorld() called from TinyBus");
+    LOG_INF("Action onHelloWorld() called from TyBus");
 }
 
 int main(void)
 {
-    // Subscribe to the TinyBus using the state table. This registers the module
+    // Subscribe to the TyBus using the state table. This registers the module
     // to receive and process events according to the defined rules.
-    LOG_WRN("Subscribe module '%s' to TinyBus", TAG);
+    LOG_WRN("Subscribe module '%s' to TyBus", TAG);
     tinySubscribe(TY_SUBSCRIBER(TAG, stateTable, TY_TABLE_ROW_COUNT(stateTable), MAIN_STATE_START));
 
     while (true)
     {
         LOG_INF("Publish HELLO_WORLD event");
-        // Publish the HELLO_WORLD event.  The TinyBus will then look up this
+        // Publish the HELLO_WORLD event.  The TyBus will then look up this
         // event in the state table and execute the corresponding action
         // (onHelloWorld in this case).  The NULL and 0 arguments indicate no data
-        // is being sent with the event.    // publish an event to the TinyBus
+        // is being sent with the event.    // publish an event to the TyBus
         tyPublish(TY_EVENT(MAIN_EVENT_HELLO_WORLD, NULL, 0));
 
         // next event in 1 second

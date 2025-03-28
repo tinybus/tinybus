@@ -1,4 +1,4 @@
-# TinyBus
+# TyBus
 
 TinyBus is a lightweight library that combines a **state machine** for managing system behavior with a **message broker** for inter-component communication. This approach enhances modularity and simplifies the development of complex embedded systems. Based on 20+ years of experience developing microcontroller projects (ESP32, STM32, nRF) with frameworks like ESP-IDF and Zephyr, TinyBus offers a proven and scalable architecture.  
 
@@ -7,14 +7,14 @@ This repository provides **ESP-IDF** and **Zephyr** implementations.
 ## Installing
 ### ESP-IDF
 You can use the component from the Component Registry, or clone the repository to your `components` folder
-- Espressif Component Registry: [marcel-cd/tinybus](https://components.espressif.com/components/marcel-cd/tinybus/)
+- Espressif Component Registry: [marcel-cd/tybus](https://components.espressif.com/components/marcel-cd/tybus/)
 
 ### Zephyr / Nordic Connect SDK
 Clone the repository to your local `MODULE_EXT_ROOT` directory, have a look at [Zephyr Modules](https://docs.zephyrproject.org/latest/develop/modules.html)
 
 ## How It Works
 
-TinyBus is implemented as a singleton and internally uses a **FreeRTOS** queue and task for event handling.
+TyBus is implemented as a singleton and internally uses a **FreeRTOS** queue and task for event handling.
 
 ### Example: Controlling an LED with a Button Press
 
@@ -24,8 +24,8 @@ Assume you have a development kit where you want to turn on an LED (`led.c`) whe
 Define the **LED_EVENT_LED1_ON** event in the header file to allow `button.c` to trigger it:
 
 ```c
-// Include TinyBus
-#include <tinybus/tinybus.h>
+// Include TyBus
+#include <tybus/tybus.h>
 
 // Define the event
 TY_EVENT_NAME(LED, LED1_ON, "led1_on");
@@ -54,7 +54,7 @@ static void onLedOn(const Event *apEvent) {
 }
 
 void LedModule() {
-    // Subscribe to TinyBus
+    // Subscribe to TyBus
     tinySubscribe(TY_SUBSCRIBER("led", stateTable, TY_TABLE_ROW_COUNT(stateTable), LED_STATE_START));
 }
 ```
@@ -64,7 +64,7 @@ void LedModule() {
 ```c
 // Include the LED event definition
 #include "led.h"
-#include <tinybus/tinybus.h>
+#include <tybus/tybus.h>
 
 // Define events and states
 TY_EVENT_NAME(BUTTON, INITIALIZE, "initialize");
@@ -94,7 +94,7 @@ static const StateTableRow stateTable[] = {
     }
 };
 
-// Subscribe the button module to TinyBus
+// Subscribe the button module to TyBus
 void ButtonModule() {
     tinySubscribe(TY_SUBSCRIBER("button", stateTable, TY_TABLE_ROW_COUNT(stateTable), BUTTON_STATE_START));
 }
@@ -109,10 +109,10 @@ static void onButtonPress(Event *apEvent) {
 
 We welcome contributions in the form of code, bug reports, and feedback.
 
-- See [CONTRIBUTING.md](https://github.com/tinybus/tinybus/blob/main/CONTRIBUTING.md) for guidelines.
+- See [CONTRIBUTING.md](https://github.com/tybus/tybus/blob/main/CONTRIBUTING.md) for guidelines.
 
 ## Contact
 
 Join the conversation on:
-- **[GitHub Discussions](https://github.com/tinybus/tinybus/discussions)** – For general chat or questions.
-- **[GitHub Issues](https://github.com/tinybus/tinybus/issues)** – To report bugs or suggest features.
+- **[GitHub Discussions](https://github.com/tybus/tybus/discussions)** – For general chat or questions.
+- **[GitHub Issues](https://github.com/tybus/tybus/issues)** – To report bugs or suggest features.

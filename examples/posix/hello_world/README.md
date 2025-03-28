@@ -1,7 +1,7 @@
 # Nonsense Hello World Logger  
 
 This is a **rather nonsense example** that logs `"Hello World"` to the console.  
-Why? Because we can 🚀 —and because it demonstrates the basic usage of TinyBus.  
+Why? Because we can 🚀 —and because it demonstrates the basic usage of TyBus.  
 
 ## Running the Example  
 
@@ -36,11 +36,11 @@ static const StateTableRow stateTable[] = {{
 
 // Implement Action
 static void onHelloWorld(Event *apEvent) {
-  ESP_LOGI(TAG, "Action onHelloWorld() called from TinyBus");
+  ESP_LOGI(TAG, "Action onHelloWorld() called from TyBus");
 }
 
 void app_main() {
-  ESP_LOGI(TAG, "Subscribe module '%s' to TinyBus", TAG);
+  ESP_LOGI(TAG, "Subscribe module '%s' to TyBus", TAG);
   tinySubscribe(TY_SUBSCRIBER(TAG, stateTable, TY_TABLE_ROW_COUNT(stateTable)));
 
   while (true) {
