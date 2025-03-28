@@ -85,8 +85,14 @@ static void            onSchedulerNotify(const TinyEvent *aEvent)
     /* } */
     if (!eventHandled)
     {
-        tyPlatLog(TY_LOG_LEVEL_DEBG, "bus", "No match for event '%s' found", aEvent->event);
-        /* tyPlatLog(TY_LOG_LEVEL_DEBG, "bus", "No match for event found"); */
+        if (aEvent->data != NULL)
+        {
+            tyPlatLog(TY_LOG_LEVEL_DEBG, "bus", "No match for event '%s' found", aEvent->event);
+        }
+        else
+        {
+            tyPlatLog(TY_LOG_LEVEL_DEBG, "bus", "No match for event 'NULL' found");
+        }
     }
 }
 
