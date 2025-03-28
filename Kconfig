@@ -7,7 +7,7 @@ if TYBUS
 menu "TyBus configuration"
 
     config TYBUS_MAX_SUBSCRIBERS
-        int "Maximum nuber of subscriber to the Tiny Bus"
+        int "Maximum nuber of subscriber to the Ty Bus"
         default 64
         range 1 253
         help

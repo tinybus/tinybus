@@ -9,15 +9,16 @@
 #include <ty/logging.h>
 
 #include "ty/platform/logging.h"
-#include "tybus/platform/scheduler.h"
 #include "tybus/tybus.h"
 
-static QueueHandle_t         mBacklogQueue = NULL;
-static TinySchedulerNotifyFn mNotifyFn     = NULL;
+#include "platform/scheduler.hpp"
+
+static QueueHandle_t          mBacklogQueue = NULL;
+static TyBusSchedulerNotifyFn mNotifyFn     = NULL;
 
 static void schedulerTask(void *aParameters)
 {
-    static TinyEvent event;
+    static TyBusEvent event;
     for (;;)
     {
         while (xQueueReceive(mBacklogQueue, &event, portMAX_DELAY) != pdPASS)
@@ -30,24 +31,24 @@ static void schedulerTask(void *aParameters)
     }
 }
 
-void tinySchedulerEventPush(const TinyEvent *aEvent)
+void tyBusSchedulerEventPush(const TyBusEvent &aEvent)
 {
     if (mBacklogQueue == NULL)
     {
         tyPlatLog(TY_LOG_LEVEL_CRIT, "bus", "Scheduler not initialized");
         return;
     }
-    xQueueSendToBack(mBacklogQueue, aEvent, (TickType_t)10);
+    xQueueSendToBack(mBacklogQueue, &aEvent, (TickType_t)10);
 }
 
-void tinyOnSchedulerEvent(TinySchedulerNotifyFn aNotifyFn)
+void tyBusOnSchedulerEvent(TyBusSchedulerNotifyFn aNotifyFn)
 {
     mNotifyFn = aNotifyFn;
 }
 
-tinyError tinySchedulerInit()
+tinyError tyBusSchedulerInit()
 {
-    mBacklogQueue = xQueueCreate(CONFIG_TYBUS_MAX_BACKLOG, sizeof(TinyEvent));
+    mBacklogQueue = xQueueCreate(CONFIG_TYBUS_MAX_BACKLOG, sizeof(TyBusEvent));
     xTaskCreate(schedulerTask, "tScheduler", 1024, NULL, 0, NULL);
 
     return TY_ERROR_NONE;

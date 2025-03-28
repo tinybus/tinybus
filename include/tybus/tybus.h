@@ -20,49 +20,49 @@ extern "C" {
 #endif
 
 // Macro for genereting a const char* from a string literal
-#define TY_EVENT_NAME(tag, name, value) const char *const tag##_EVENT_##name = value;
-#define TY_STATE_NAME(tag, name, value) const char *const tag##_STATE_##name = value;
-#define TY_EVENT(event, data, len) ((TinyEvent){event, data, len})
-#define TY_SUBSCRIBER(module, table, tableRowCount, startState) \
-    ((TinySubscriber){module, table, tableRowCount, startState, NULL})
+#define TYBUS_EVENT_NAME(tag, name, value) const char *const tag##_EVENT_##name = value;
+#define TYBUS_STATE_NAME(tag, name, value) const char *const tag##_STATE_##name = value;
+#define TYBUS_EVENT(event, data, len) ((TyBusEvent){event, data, len})
+#define TYBUS_SUBSCRIBER(module, table, tableRowCount, startState) \
+    ((TyBusSubscriber){module, table, tableRowCount, startState, NULL})
 
 // ARRAY_SIZE ... (be careful, this is base on sizeof, only use on arrays)
-#define TY_TABLE_ROW_COUNT(x) (sizeof(x) / sizeof((x)[0]))
+#define TYBUS_TABLE_ROW_COUNT(x) (sizeof(x) / sizeof((x)[0]))
 
-typedef struct TinyEvent
+typedef struct TyBusEvent
 {
     const char *event;
     void       *data;
     size_t      dataLen;
-} TinyEvent;
+} TyBusEvent;
 
-typedef void (*TinyStateActionFn)(const TinyEvent *aEvent);
+typedef void (*TyBusStateActionFn)(const TyBusEvent *aEvent);
 
-typedef bool (*TinyStateConditionFn)();
+typedef bool (*TyBusStateConditionFn)();
 
-typedef struct TinyStateTableRow
+typedef struct TyBusStateTableRow
 {
-    const char          *state;
-    const char          *event;
-    TinyStateConditionFn conditionCheck;
-    TinyStateActionFn    entryAction;
-    const char          *nextState;
-    TinyStateActionFn    exitAction;
-    bool                 stop;
-} TinyStateTableRow;
+    const char           *state;
+    const char           *event;
+    TyBusStateConditionFn conditionCheck;
+    TyBusStateActionFn    entryAction;
+    const char           *nextState;
+    TyBusStateActionFn    exitAction;
+    bool                  stop;
+} TyBusStateTableRow;
 
-typedef struct TinySubscriber
+typedef struct TyBusSubscriber
 {
-    const char *const              name;
-    const TinyStateTableRow *const table;
-    const size_t                   tableRowCount;
-    const char                    *currentState;
-    TinyStateActionFn              exitAction;
-} TinySubscriber;
+    const char *const               name;
+    const TyBusStateTableRow *const table;
+    const size_t                    tableRowCount;
+    const char                     *currentState;
+    TyBusStateActionFn              exitAction;
+} TyBusSubscriber;
 
-tinyError tinySubscribe(TinySubscriber *aSubscriber);
+tinyError tyBusSubscribe(TyBusSubscriber *aSubscriber);
 
-tinyError tyPublish(const char *aEventName, void *aData, size_t aDataLen);
+tinyError tyBusPublish(const char *aEventName, void *aData, size_t aDataLen);
 
 #ifdef __cplusplus
 } // extern "C"

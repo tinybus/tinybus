@@ -28,8 +28,8 @@ Define the **LED_EVENT_LED1_ON** event in the header file to allow `button.c` to
 #include <tybus/tybus.h>
 
 // Define the event
-TY_EVENT_NAME(LED, LED1_ON, "led1_on");
-TY_STATE_NAME(LED, START, "start");
+TYBUS_EVENT_NAME(LED, LED1_ON, "led1_on");
+TYBUS_STATE_NAME(LED, START, "start");
 ```
 
 #### `led.c`
@@ -55,7 +55,7 @@ static void onLedOn(const Event *apEvent) {
 
 void LedModule() {
     // Subscribe to TyBus
-    tinySubscribe(TY_SUBSCRIBER("led", stateTable, TY_TABLE_ROW_COUNT(stateTable), LED_STATE_START));
+    tyBusSubscribe(TY_SUBSCRIBER("led", stateTable, TY_TABLE_ROW_COUNT(stateTable), LED_STATE_START));
 }
 ```
 
@@ -67,10 +67,10 @@ void LedModule() {
 #include <tybus/tybus.h>
 
 // Define events and states
-TY_EVENT_NAME(BUTTON, INITIALIZE, "initialize");
-TY_EVENT_NAME(BUTTON, PRESSED, "button_short_pressed");
-TY_STATE_NAME(BUTTON, START, "start");
-TY_STATE_NAME(BUTTON, IDLE, "idle");
+TYBUS_EVENT_NAME(BUTTON, INITIALIZE, "initialize");
+TYBUS_EVENT_NAME(BUTTON, PRESSED, "button_short_pressed");
+TYBUS_STATE_NAME(BUTTON, START, "start");
+TYBUS_STATE_NAME(BUTTON, IDLE, "idle");
 
 // Define actions
 static void initModule(Event *apEvent);
@@ -96,12 +96,12 @@ static const StateTableRow stateTable[] = {
 
 // Subscribe the button module to TyBus
 void ButtonModule() {
-    tinySubscribe(TY_SUBSCRIBER("button", stateTable, TY_TABLE_ROW_COUNT(stateTable), BUTTON_STATE_START));
+    tyBusSubscribe(TY_SUBSCRIBER("button", stateTable, TY_TABLE_ROW_COUNT(stateTable), BUTTON_STATE_START));
 }
 
 // Handle the button press event and trigger the LED module
 static void onButtonPress(Event *apEvent) {
-    tyPublish(TY_EVENT(LED_EVENT_LED1_ON, NULL, 0)); // Send event to LED module
+    tyBusPublish(TYBUS_EVENT(LED_EVENT_LED1_ON, NULL, 0)); // Send event to LED module
 }
 ```
 

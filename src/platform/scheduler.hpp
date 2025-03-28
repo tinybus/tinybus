@@ -17,11 +17,7 @@
 
 #include "tybus/tybus.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-typedef void (*TinySchedulerNotifyFn)(const TinyEvent *aEvent);
+typedef void (*TyBusSchedulerNotifyFn)(const TyBusEvent *aEvent);
 
 /**
  * @addtogroup plat-scheduler
@@ -39,18 +35,10 @@ typedef void (*TinySchedulerNotifyFn)(const TinyEvent *aEvent);
  * @param[in]  aFormat     A pointer to the format string.
  * @param[in]  ...         Arguments for the format specification.
  */
-void tinySchedulerEventPush(const TinyEvent *aEvent);
+void tyBusSchedulerEventPush(const TyBusEvent &aEvent);
 
-void tinyOnSchedulerEvent(TinySchedulerNotifyFn aNotifyFn);
+void tyBusOnSchedulerEvent(TyBusSchedulerNotifyFn aNotifyFn);
 
-tinyError tinySchedulerInit(void);
-
-/**
- * @}
- */
-
-#ifdef __cplusplus
-} // extern "C"
-#endif
+tinyError tyBusSchedulerInit(void);
 
 #endif // TYBUS_PLATFORM_SCHEDULER_H_

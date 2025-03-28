@@ -15,21 +15,21 @@
 
 const char *TAG = "main";
 /*****************************************************************************
- * Tiny Bus Definitions for the main Module
+ * Ty Bus Definitions for the main Module
  *****************************************************************************/
 
 // 1. Define the events using in the state table
-TY_EVENT_NAME(MAIN, HELLO_WORLD, "HelloWorld");
-TY_STATE_NAME(MAIN, START, "Start");
+TYBUS_EVENT_NAME(MAIN, HELLO_WORLD, "HelloWorld");
+TYBUS_STATE_NAME(MAIN, START, "Start");
 
 // 2. Declare the actions using in the state table
-static void onHelloWorld(const TinyEvent *aEvent);
+static void onHelloWorld(const TyBusEvent *aEvent);
 
 // 3. Glue everything together
-static const TinyStateTableRow stateTable[] = {{
+static const TyBusStateTableRow stateTable[] = {{
     .state = MAIN_STATE_START,                // only process the event, if the current state
-                                              // match. TY_STATE_INITIAL is the default state.
-                                              // use TY_STATE_ANY, if this should be ignored
+                                              // match. TYBUS_STATE_INITIAL is the default state.
+                                              // use TYBUS_STATE_ANY, if this should be ignored
     .event          = MAIN_EVENT_HELLO_WORLD, // process if the event matches
     .conditionCheck = NULL,                   // No condition function.  The action is always executed.
     .entryAction    = onHelloWorld,           // The function to call when the event occurs.
@@ -38,10 +38,11 @@ static const TinyStateTableRow stateTable[] = {{
     .stop           = true                    // Stop processing after this entry (this is the default case)
 }};
 
-static TinySubscriber mSubscriber = TY_SUBSCRIBER("app", stateTable, TY_TABLE_ROW_COUNT(stateTable), MAIN_STATE_START);
+static TyBusSubscriber mSubscriber =
+    TYBUS_SUBSCRIBER("app", stateTable, TYBUS_TABLE_ROW_COUNT(stateTable), MAIN_STATE_START);
 /*****************************************************************************/
 // Implement the Actions
-static void onHelloWorld(const TinyEvent *aEvent)
+static void onHelloWorld(const TyBusEvent *aEvent)
 {
     tyLogCritPlat("Action onHelloWorld() called from TyBus");
 }
@@ -51,7 +52,7 @@ int main(void)
     // Subscribe to the TyBus using the state table. This registers the module
     // to receive and process events according to the defined rules.
     tyLogInfoPlat("Subscribe module '%s' to TyBus", TAG);
-    tinySubscribe(&mSubscriber);
+    tyBusSubscribe(&mSubscriber);
 
     while (true)
     {
@@ -60,7 +61,7 @@ int main(void)
         // event in the state table and execute the corresponding action
         // (onHelloWorld in this case).  The NULL and 0 arguments indicate no data
         // is being sent with the event.    // publish an event to the TyBus
-        tyPublish(MAIN_EVENT_HELLO_WORLD, NULL, 0);
+        tyBusPublish(MAIN_EVENT_HELLO_WORLD, NULL, 0);
 
         // next event in 1 second
         sleep(5);

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
-ty_library_sources(${CMAKE_CURRENT_SOURCE_DIR}/scheduler.c
-                     ${CMAKE_CURRENT_SOURCE_DIR}/threadqueue.c)
+ty_library_sources(${CMAKE_CURRENT_SOURCE_DIR}/scheduler.cpp
+                   ${CMAKE_CURRENT_SOURCE_DIR}/threadqueue.c)
 
 ty_library_include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 

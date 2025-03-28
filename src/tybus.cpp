@@ -12,17 +12,17 @@
 #include "tybus-config.h"
 #include <ty/logging.h>
 #include <ty/platform.h>
-#include "tybus/platform/scheduler.h"
+#include "platform/scheduler.hpp"
 #include "tybus/tybus.h"
 
-static bool handleEvent(const TinySubscriber *aSubscriber, const TinyEvent *aEvent)
+static bool handleEvent(const TyBusSubscriber *aSubscriber, const TyBusEvent *aEvent)
 {
     uint8_t i;
     bool    eventHandled = false;
 
     for (i = 0; i < aSubscriber->tableRowCount; i++)
     {
-        const TinyStateTableRow *row = &aSubscriber->table[i];
+        const TyBusStateTableRow *row = &aSubscriber->table[i];
 
         if ((aEvent->event == row->event) && ((aSubscriber->currentState == row->state) || (row->state == NULL)) &&
             ((row->conditionCheck == NULL || (row->conditionCheck)())))
@@ -48,7 +48,7 @@ static bool handleEvent(const TinySubscriber *aSubscriber, const TinyEvent *aEve
             // set exit action for next state (only, if the next state is new)
             if (row->nextState != NULL)
             {
-                *(TinyStateActionFn *)aSubscriber->exitAction = row->exitAction;
+                *(TyBusStateActionFn *)aSubscriber->exitAction = row->exitAction;
             }
             eventHandled = true;
             // break if needed
@@ -62,10 +62,10 @@ static bool handleEvent(const TinySubscriber *aSubscriber, const TinyEvent *aEve
     return eventHandled;
 }
 
-static size_t          mSubscriberCount;
-static TinySubscriber *mSubscriber[CONFIG_TYBUS_MAX_SUBSCRIBERS];
-static bool            mInitialized;
-static void            onSchedulerNotify(const TinyEvent *aEvent)
+static size_t           mSubscriberCount;
+static TyBusSubscriber *mSubscriber[CONFIG_TYBUS_MAX_SUBSCRIBERS];
+static bool             mInitialized;
+static void             onSchedulerNotify(const TyBusEvent *aEvent)
 {
     if (aEvent == NULL || aEvent->event == NULL)
     {
@@ -100,13 +100,13 @@ static void init()
 {
     // initialize event matrix
     mSubscriberCount = 0;
-    tinySchedulerInit();
+    tyBusSchedulerInit();
     // register callback to scheduler implementation
-    tinyOnSchedulerEvent(onSchedulerNotify);
+    tyBusOnSchedulerEvent(onSchedulerNotify);
     mInitialized = true;
 }
 
-tinyError tyPublish(const char *aEventName, void *aData, size_t aDataLen)
+tinyError tyBusPublish(const char *aEventName, void *aData, size_t aDataLen)
 {
     // we need to copy the data within the event to the heap
     // it will be freed, after the event is processed
@@ -115,13 +115,13 @@ tinyError tyPublish(const char *aEventName, void *aData, size_t aDataLen)
     /* Event event = {.event = apEvent->event, .data = dataCopy, .dataLen = apEvent->dataLen}; */
     // FreeRTOS queue makes a copy of the data, it's save to use
     // a local variable (event)
-    TinyEvent event = {.event = aEventName, .data = aData, .dataLen = aDataLen};
-    tinySchedulerEventPush(&event);
+    TyBusEvent event = {.event = aEventName, .data = aData, .dataLen = aDataLen};
+    tyBusSchedulerEventPush(event);
 
     return TY_ERROR_NONE;
 }
 
-tinyError tinySubscribe(TinySubscriber *aSubscriber)
+tinyError tyBusSubscribe(TyBusSubscriber *aSubscriber)
 {
     // let the first subscription initialize the bus
     if (!mInitialized)
