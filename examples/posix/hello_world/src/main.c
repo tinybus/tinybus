@@ -9,7 +9,7 @@
 
 #include <pthread.h>
 #include <stdio.h>
-#include <tiny/logging.h>
+#include <ty/logging.h>
 #include <unistd.h>
 #include "tybus/tybus.h"
 

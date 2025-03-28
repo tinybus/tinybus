@@ -13,7 +13,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include <tiny/error.h>
+#include <ty/error.h>
 
 #ifdef __cplusplus
 extern "C" {

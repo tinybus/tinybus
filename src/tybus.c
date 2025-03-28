@@ -10,8 +10,8 @@
 #include <stdint.h>
 
 #include "tybus-config.h"
-#include <tiny/logging.h>
-#include <tiny/platform.h>
+#include <ty/logging.h>
+#include <ty/platform.h>
 #include "tybus/platform/scheduler.h"
 #include "tybus/tybus.h"
 

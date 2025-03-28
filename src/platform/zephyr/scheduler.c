@@ -3,8 +3,8 @@
 
 #include <zephyr/kernel.h>
 
-#include <tiny/error.h>
-#include <tiny/logging.h>
+#include <ty/error.h>
+#include <ty/logging.h>
 
 #include "tybus/platform/scheduler.h"
 #include "tybus/tybus.h"

@@ -3,12 +3,12 @@
 
 #include <pthread.h>
 
-#include <tiny/error.h>
-#include <tiny/logging.h>
+#include <ty/error.h>
+#include <ty/logging.h>
 
 #include "threadqueue.h"
 #include <unistd.h>
-#include "tiny/platform/logging.h"
+#include "ty/platform/logging.h"
 #include "tybus/platform/scheduler.h"
 #include "tybus/tybus.h"
 

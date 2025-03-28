@@ -13,7 +13,7 @@
 #include <stdarg.h>
 #include <stdint.h>
 
-#include <tiny/error.h>
+#include <ty/error.h>
 
 #include "tybus/tybus.h"
 
