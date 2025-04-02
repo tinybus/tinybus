@@ -8,7 +8,6 @@
 #include <ty/error.h>
 #include <ty/logging.h>
 
-#include "ty/platform/logging.h"
 #include "tybus/tybus.h"
 
 #include "platform/scheduler.hpp"
@@ -35,7 +34,7 @@ void tyBusSchedulerEventPush(const TyBusEvent &aEvent)
 {
     if (mBacklogQueue == NULL)
     {
-        tyPlatLog(TY_LOG_LEVEL_CRIT, "bus", "Scheduler not initialized");
+        tyLogCrit("bus", "Scheduler not initialized");
         return;
     }
     xQueueSendToBack(mBacklogQueue, &aEvent, (TickType_t)10);

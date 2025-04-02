@@ -31,7 +31,7 @@ void tyBusSchedulerEventPush(const TyBusEvent &aEvent)
 {
     if (k_msgq_put(&mBacklogQueue, &aEvent, K_NO_WAIT) != 0)
     {
-        tyPlatLog(TY_LOG_LEVEL_CRIT, "bus", "Backlog Queue full!");
+        tyLogCrit("bus", "Backlog Queue full!");
     }
 }
 

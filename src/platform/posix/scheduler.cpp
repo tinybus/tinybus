@@ -32,7 +32,7 @@ static void *schedulerTask(void *p1)
 
 void tyBusSchedulerEventPush(const TyBusEvent &aEvent)
 {
-    tyLogDebgPlat("Scheduler event received %s", aEvent.event);
+    tyLogDebg("scheduler", "Scheduler event received %s", aEvent.event);
     while (!mBacklogQueue.push(aEvent))
     {
     }

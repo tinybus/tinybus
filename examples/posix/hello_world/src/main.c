@@ -44,19 +44,19 @@ static TyBusSubscriber mSubscriber =
 // Implement the Actions
 static void onHelloWorld(const TyBusEvent *aEvent)
 {
-    tyLogCritPlat("Action onHelloWorld() called from TyBus");
+    tyLogCrit(TAG, "Action onHelloWorld() called from TyBus");
 }
 
 int main(void)
 {
     // Subscribe to the TyBus using the state table. This registers the module
     // to receive and process events according to the defined rules.
-    tyLogInfoPlat("Subscribe module '%s' to TyBus", TAG);
+    tyLogInfo(TAG, "Subscribe module '%s' to TyBus", TAG);
     tyBusSubscribe(&mSubscriber);
 
     while (true)
     {
-        tyLogInfoPlat("Publish HELLO_WORLD event");
+        tyLogInfo(TAG, "Publish HELLO_WORLD event");
         // Publish the HELLO_WORLD event.  The TyBus will then look up this
         // event in the state table and execute the corresponding action
         // (onHelloWorld in this case).  The NULL and 0 arguments indicate no data

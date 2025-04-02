@@ -69,7 +69,7 @@ static void             onSchedulerNotify(const TyBusEvent *aEvent)
 {
     if (aEvent == NULL || aEvent->event == NULL)
     {
-        tyPlatLog(TY_LOG_LEVEL_CRIT, "bus", "Event is NULL");
+        tyLogCrit("bus", "Event is NULL");
         return;
     }
     bool eventHandled = false;
@@ -87,11 +87,11 @@ static void             onSchedulerNotify(const TyBusEvent *aEvent)
     {
         if (aEvent->data != NULL)
         {
-            tyPlatLog(TY_LOG_LEVEL_DEBG, "bus", "No match for event '%s' found", aEvent->event);
+            tyLogDebg("bus", "No match for event '%s' found", aEvent->event);
         }
         else
         {
-            tyPlatLog(TY_LOG_LEVEL_DEBG, "bus", "No match for event 'NULL' found");
+            tyLogDebg("bus", "No match for event 'NULL' found");
         }
     }
 }
@@ -130,18 +130,18 @@ tinyError tyBusSubscribe(TyBusSubscriber *aSubscriber)
     }
     if (aSubscriber == NULL || aSubscriber->tableRowCount == 0)
     {
-        tyPlatLog(TY_LOG_LEVEL_CRIT, "bus", "Subscriber NULL");
+        tyLogCrit("bus", "Subscriber NULL");
         return TY_ERROR_NONE;
     }
     if (aSubscriber->tableRowCount == 0)
     {
-        tyPlatLog(TY_LOG_LEVEL_DEBG, "bus", "tableRowCount == 0");
+        tyLogDebg("bus", "tableRowCount == 0");
         return TY_ERROR_NONE;
     }
     // test if we have slots left
     if (mSubscriberCount + 1 >= CONFIG_TYBUS_MAX_SUBSCRIBERS)
     {
-        tyPlatLog(TY_LOG_LEVEL_WARN, "bus", "Max count for subscribers reached");
+        tyLogWarn("bus", "Max count for subscribers reached");
         return TY_ERROR_SUBSCRIBER_COUNT_EXCEEDED;
     }
     mSubscriber[mSubscriberCount]             = aSubscriber;
